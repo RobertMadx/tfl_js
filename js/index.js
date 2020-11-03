@@ -1,4 +1,10 @@
-var jsstoreCon = new JsStore.Connection(new Worker("js/jsstore.worker.min.js"));
+if ('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js')
+    // .then((reg) => console.log('service worker registered', reg))
+    // .catch((err) => console.log('service worker not registered', err))
+}
+
+var jsstoreCon = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
 window.onload = function () {
     refreshTableData();
@@ -59,7 +65,7 @@ function getDbSchema() {
     }
 
     var db = {
-        name: 'My-Db',
+        name: 'TheFinishLine',
         tables: [table]
     }
     return db;
