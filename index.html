@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,106 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
-    Hello World!
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="form-group text-center">
+                    <label for="Race_select">Race</label>
+                    <select class="form-control" id="Race_select">
+                        <option value='0' disabled selected>Choose your option</option>
+                        <option value='1'>111</option>
+                        <option value='2'>222</option>
+                        <option value='3'>333</option>
+                        <option value='4'>444</option>
+                        <option value='5'>555</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group text-center">
+                    <label for="Group_select">Group</label>
+                    <select class="form-control" id="Group_select">
+                        <option value='0' disabled selected>Choose your option</option>
+                        <option value='1'>111</option>
+                        <option value='2'>222</option>
+                        <option value='3'>333</option>
+                        <option value='4'>444</option>
+                        <option value='5'>555</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group text-center">
+                    <label for="Number_input">Racer Number</label>
+                    <input id="Number_input" type="text" class="form-control text-center username-field"
+                        autocomplete="off">
+                </div>
+            </div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap1:</button></div>
+            <div id="Lap1" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap2:</button></div>
+            <div id="Lap2" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap3:</button></div>
+            <div id="Lap3" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap4:</button></div>
+            <div id="Lap4" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap5:</button></div>
+            <div id="Lap5" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap6:</button></div>
+            <div id="Lap6" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap7:</button></div>
+            <div id="Lap7" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap8:</button></div>
+            <div id="Lap8" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1">
+            <div class="col-3"><button class='btn btn-outline-dark'>Lap9:</button></div>
+            <div id="Lap9" class="col-9"></div>
+        </div>
+        <div class="row border-bottom p-1 d-none">
+            <div class="col-12">
+                <table id="tblGrid" class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>num</th>
+                            <th>order</th>
+                            <th>lap</th>
+                            <th>laps_done</th>
+                            <th>group</th>
+                            <th>race</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button id="Clear_all" class="btn btn-primary">Clear</button>
     <script src="./js/jquery-3.5.1.min.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/jsstore.min.js"></script>
     <script src="./js/index.js"></script>
 </body>
+
 </html>
