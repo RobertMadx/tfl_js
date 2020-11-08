@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TFL</title>
+    <title>The Finish Line</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#FFE1CA">
     <link rel="apple-touch-icon" href="./img/icons/icon-96x96.png">
@@ -18,14 +18,10 @@
         <div class="row">
             <div class="col">
                 <div class="form-group text-center">
-                    <label for="Race_select">Race</label>
-                    <select class="form-control" id="Race_select">
-                        <option value='0' disabled selected>Choose your option</option>
-                        <option value='1'>111</option>
-                        <option value='2'>222</option>
-                        <option value='3'>333</option>
-                        <option value='4'>444</option>
-                        <option value='5'>555</option>
+                    <label for="Season_select">Season</label>
+                    <select class="form-control" id="Season_select">
+                        <option value='0' disabled>Select Season</option>
+                        <option value='1' selected>Season 2020-2021</option>
                     </select>
                 </div>
             </div>
@@ -33,78 +29,114 @@
                 <div class="form-group text-center">
                     <label for="Group_select">Group</label>
                     <select class="form-control" id="Group_select">
-                        <option value='0' disabled selected>Choose your option</option>
-                        <option value='1'>111</option>
-                        <option value='2'>222</option>
-                        <option value='3'>333</option>
-                        <option value='4'>444</option>
-                        <option value='5'>555</option>
+                        <option value='0' disabled>Select Group</option>
+                        <option value='1' selected>Pre 75 Smallbore,Pre 75 Midbore,Pre 75 Bigbore</option>
+                        <option value='2'>Pre 96 Womens,Over 60,Pre 86 Womens</option>
+                        <option value='3'>Pre 86 4T Over,Pre 96 4T Over,Pre 96 4T Under</option>
+                        <option value='4'>Pre 86 Enduro,Pre 96 Enduro</option>
+                        <option value='5'>Pre 70,Pre 78 Smallbore,Pre 78 Midbore,Pre 78 Bigbore</option>
+                        <option value='6'>Evo Bigbore,Evo Midbore,Evo Smallbore</option>
+                        <option value='7'>Pre 86 Midbore,Pre 91 Midbore</option>
+                        <option value='8'>Pre 96 Midbore</option>
+                        <option value='9'>Pre 86 Smallbore,Pre 91 Smallbore,Pre 96 Smallbore</option>
+                        <option value='10'>Pre 86 Bigbore,Pre 91 Bigbore,Pre 96 Bigbore</option>
                     </select>
                 </div>
             </div>
         </div>
+
         <div class="row">
+
             <div class="col">
                 <div class="form-group text-center">
-                    <label for="Number_input">Racer Number</label>
-                    <input id="Number_input" type="text" class="form-control text-center username-field"
-                        autocomplete="off">
+                    <label for="Race_select">Round</label>
+                    <select class="form-control" id="Round_select">
+                        <option value='0' disabled>Select round</option>
+                        <option value='1' selected>Round 1</option>
+                        <option value='2'>Round 2</option>
+                        <option value='3'>Round 3</option>
+                        <option value='4'>Round 4</option>
+                        <option value='5'>Round 5</option>
+                        <option value='6'>Round 6</option>
+                        <option value='7'>Round 7</option>
+                        <option value='8'>Round 8</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group text-center">
+                    <label for="Race_select">Race</label>
+                    <select class="form-control" id="Race_select">
+                        <option value='0' disabled>Select Race</option>
+                        <option value='1' selected>Race 1</option>
+                        <option value='2'>Race 2</option>
+                        <option value='3'>Race 3</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap1:</button></div>
-            <div id="Lap1" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap2:</button></div>
-            <div id="Lap2" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap3:</button></div>
-            <div id="Lap3" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap4:</button></div>
-            <div id="Lap4" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap5:</button></div>
-            <div id="Lap5" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap6:</button></div>
-            <div id="Lap6" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap7:</button></div>
-            <div id="Lap7" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap8:</button></div>
-            <div id="Lap8" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1">
-            <div class="col-3"><button class='btn btn-outline-dark'>Lap9:</button></div>
-            <div id="Lap9" class="col-9"></div>
-        </div>
-        <div class="row border-bottom p-1 d-none">
-            <div class="col-12">
-                <table id="tblGrid" class="table table-hover ">
-                    <thead>
-                        <tr>
-                            <th>num</th>
-                            <th>order</th>
-                            <th>lap</th>
-                            <th>laps_done</th>
-                            <th>group</th>
-                            <th>race</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+
+    <div class="row">
+        <div class="col">
+            <div class="form-group text-center">
+                <label for="Number_input">Racer Number</label>
+                <input id="Number_input" type="text" class="form-control text-center username-field" autocomplete="off">
             </div>
         </div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn1'>Lap1:</button></div>
+        <div id="Lap1" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn2'>Lap2:</button></div>
+        <div id="Lap2" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn3'>Lap3:</button></div>
+        <div id="Lap3" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn4'>Lap4:</button></div>
+        <div id="Lap4" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn5'>Lap5:</button></div>
+        <div id="Lap5" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn6'>Lap6:</button></div>
+        <div id="Lap6" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn7'>Lap7:</button></div>
+        <div id="Lap7" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn8'>Lap8:</button></div>
+        <div id="Lap8" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1">
+        <div class="col-3"><button class='btn btn-outline-dark lap' id='lapbtn9'>Lap9:</button></div>
+        <div id="Lap9" class="col-9 lap-row"></div>
+    </div>
+    <div class="row border-bottom p-1 d-none">
+        <div class="col-12">
+            <table id="tblGrid" class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th>num</th>
+                        <th>order</th>
+                        <th>lap</th>
+                        <th>laps_done</th>
+                        <th>group</th>
+                        <th>race</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
     </div>
     <button id="Clear_all" class="btn btn-primary">Clear</button>
     <script src="./js/jquery-3.5.1.min.js"></script>

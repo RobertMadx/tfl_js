@@ -38,14 +38,14 @@ self.addEventListener('activate', evt => {
 
 self.addEventListener('fetch', evt => {
     //console.log('fetch event',evt)
-    evt.respondWith(
-        caches.match(evt.request).then(cacheRes =>{
-            return cacheRes || fetch(evt.request).then(fetchRes => {
-                return caches.open(dynamicCacheName).then(cache => {
-                    cache.put(evt.request.url, fetchRes.clone())
-                    return fetchRes;
-                })
-            });
-        })
-    )
+    // evt.respondWith(
+    //     caches.match(evt.request).then(cacheRes =>{
+    //         return cacheRes || fetch(evt.request).then(fetchRes => {
+    //             return caches.open(dynamicCacheName).then(cache => {
+    //                 cache.put(evt.request.url, fetchRes.clone())
+    //                 return fetchRes;
+    //             })
+    //         });
+    //     })
+    // )
 })

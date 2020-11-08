@@ -1,10 +1,10 @@
-if ('serviceWorker' in navigator){
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js')
     // .then((reg) => console.log('service worker registered', reg))
     // .catch((err) => console.log('service worker not registered', err))
 }
 
-var jsstoreCon = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
+var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
 window.onload = function () {
     refreshTableData();
@@ -13,7 +13,7 @@ window.onload = function () {
 };
 
 async function initDb() {
-    var isDbCreated = await jsstoreCon.initDb(getDbSchema());
+    var isDbCreated = await db.initDb(getDbSchema());
     if (isDbCreated) {
         //console.log('db created');
     }
@@ -34,33 +34,14 @@ function getDbSchema() {
                 notNull: true,
                 dataType: 'string'
             },
-            Order: {
-                dataType: 'number'
-            },
-            Lap: {
-                dataType: 'number'
-            },
-            Laps_done: {
-                dataType: 'number'
-            },
             Group: {
+                notNull: true,
                 dataType: 'number'
             },
             Race_id: {
+                notNull: true,
                 dataType: 'number'
             },
-            Season_id: {
-                dataType: 'number'
-            },
-            Entry_id: {
-                dataType: 'number'
-            },
-            Class_id: {
-                dataType: 'number'
-            },
-            Class_Name: {
-                dataType: 'string'
-            }
         }
     }
 
@@ -86,10 +67,6 @@ function registerEvents() {
         }
     });
 
-    $('#Input_form').on('submit', function (e) {
-        return false;
-    });
-
     $('#Clear_all').on('click', function (e) {
         clear_all();
     });
@@ -101,70 +78,16 @@ function registerEvents() {
 
 
 async function Process_number(num, group, race) {
-
-    const results = await jsstoreCon.select({
-        from: "Lap_Race",
-        where: {
-            Group: group,
-            Race_id: race
-        },
-        order: {
-            by: 'Order',
-            type: 'desc'
-        }
-    });
-    var order = results.length > 0 ? results[0].Order + 1 : 1;
-    if (results.length > 0) {
-        const results2 = await jsstoreCon.select({
-            from: "Lap_Race",
-            where: {
-                Group: group,
-                Race_id: race
-            },
-            aggregate: {
-                max: 'Lap',
-            }
-        });
-        var lap = results2[0]["max(Lap)"];
-        const results3 = await jsstoreCon.count({
-            from: "Lap_Race",
-            where: {
-                Number: num,
-                Group: group,
-                Race_id: race
-            }
-        });
-        var laps_done = results3 ? results3 + 1 : 1;
-
-    } else {
-        var lap = 1;
-        var laps_done = 1;
-    }
-
-    const results4 = await jsstoreCon.select({
-        from: "Lap_Race",
-        where: {
-            Number: num,
-            Group: group,
-            Race_id: race,
-            Lap: Math.max(laps_done, lap),
-        }
-    });
-
-    if (results4.length > 0) {
-        laps_done = Math.max(laps_done, lap) + 1;
-    }
+    var numbers = [];
+    var laps_done = [];
 
     var laprace = {
         Number: num,
-        Order: order,
-        Lap: Math.max(laps_done, lap),
-        Laps_done: laps_done,
         Group: group,
         Race_id: race,
     };
     try {
-        var noOfDataInserted = await jsstoreCon.insert({
+        var noOfDataInserted = await db.insert({
             into: 'Lap_Race',
             values: [laprace]
         });
@@ -176,91 +99,54 @@ async function Process_number(num, group, race) {
     }
 }
 
+
+
 async function refreshTableData() {
+    clear_laps();
     let group = parseInt($('#Group_select').val());
     let race = parseInt($('#Race_select').val());
+
+    var numbers = [];
+    var laps_done = [];
+    var last_lap = [];
+
     if (group && race) {
-        const results = await jsstoreCon.select({
+        const results = await db.select({
             from: "Lap_Race",
             where: {
                 Group: group,
                 Race_id: race
             },
-            order: {
-                by: 'Order',
-                type: 'desc'
-            }
         });
-        var order = results.length > 0 ? results[0].Order + 1 : 1;
-        if (results.length > 0) {
-            const results2 = await jsstoreCon.select({
-                from: "Lap_Race",
-                where: {
-                    Group: group,
-                    Race_id: race
-                },
-                aggregate: {
-                    max: 'Lap',
+
+        var lap = 1;
+        results.forEach(function (n) {
+            var index = numbers.indexOf(n.Number);
+            if (index == -1) {
+                numbers.push(n.Number)
+                laps_done.push(1);
+                last_lap.push(1);
+                last_lap.push(lap);
+            } else {
+                laps_done[index]++;
+                if (lap < laps_done[index] || last_lap[index] == lap){
+                    lap++
                 }
-            });
-            var maxlap = results2[0]["max(Lap)"];
-        }
-        try {
-            var htmlString = "";
-            var lap_race = await jsstoreCon.select({
-                from: 'Lap_Race',
-                where: {
-                    Group: group,
-                    Race_id: race,
-                },
-                order: [{
-                    by: 'Laps_done',
-                    type: 'desc' //supprted sort type is - asc,desc
-                },
-                {
-                    by: 'Order',
-                    type: 'asc' //supprted sort type is - asc,desc
-                }]
-            });
-            lap_race.forEach(function (lr) {
-                htmlString += "<tr ItemId=" + lr.id + "><td>" +
-                    lr.Number + "</td><td>" +
-                    lr.Order + "</td><td>" +
-                    lr.Lap + "</td><td>" +
-                    lr.Laps_done + "</td><td>" +
-                    lr.Group + "</td><td>" +
-                    lr.Race_id + "</td><td>";
-            })
-            $('#tblGrid tbody').html(htmlString);
-        } catch (ex) {
-            alert(ex.message)
-        }
-        for (i = 1; i <= 10; i++) {
-            var htmlString = "";
-            var laprace = await jsstoreCon.select({
-                from: 'Lap_Race',
-                where: {
-                    Group: group,
-                    Race_id: race,
-                    Lap: i
-                },
-                order: [{
-                    by: 'Laps_done',
-                    type: 'desc' //supprted sort type is - asc,desc
-                },
-                {
-                    by: 'Order',
-                    type: 'asc' //supprted sort type is - asc,desc
-                }]
-            });
-            laprace.forEach(function (lr) {
-                htmlString += "<button class='btn btn-outline-primary'>" + lr.Number + "</button>";
-            })
-            $('#Lap' + i).html(htmlString);
-        }
-    } else {
-        $('#tblGrid tbody').html("");
+                last_lap[index] = lap;
+            }
+            $('#Lap' + lap).append("<button class='btn btn-outline-primary entry'>" + n.Number + "</button>");
+        })
+        $('#lapbtn' + lap).addClass("active");
     }
+}
+
+function clear_laps(){
+    $(".lap-row").each(function (index, element) {
+        $(this).html("");
+    });
+    $(".lap").each(function (index, element) {
+        $(this).removeClass("active");
+    });
 }
 
 async function clear_all() {
@@ -268,7 +154,7 @@ async function clear_all() {
     let race = parseInt($('#Race_select').val());
     if (group && race) {
         try {
-            await jsstoreCon.remove({
+            await db.remove({
                 from: 'Lap_Race',
                 where: {
                     Group: group,
