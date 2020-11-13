@@ -1,6 +1,6 @@
-const statisCacheName='site-static-v4';
-const dynamicCacheName='site-dynamic-v4';
-const assets = [
+let statisCacheName='site-static-v5';
+let dynamicCacheName='site-dynamic-v5';
+let assets = [
     './',
     './index.html',
     './js/index.js',
