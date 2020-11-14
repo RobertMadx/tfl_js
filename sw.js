@@ -1,9 +1,11 @@
-let statisCacheName='site-static-v5';
-let dynamicCacheName='site-dynamic-v5';
-let assets = [
+const statisCacheName='site-static-v6';
+const dynamicCacheName='site-dynamic-v6';
+const assets = [
     './',
     './index.html',
+    './database.html',
     './js/index.js',
+    './js/helper.js',
     './js/jquery-3.5.1.min.js',
     './js/jsstore.min.js',
     './js/jsstore.worker.min',
@@ -37,7 +39,6 @@ self.addEventListener('activate', evt => {
 })
 
 self.addEventListener('fetch', evt => {
-    console.log('fetch event',evt)
     evt.respondWith(
         caches.match(evt.request).then(cacheRes =>{
             return cacheRes || fetch(evt.request).then(fetchRes => {

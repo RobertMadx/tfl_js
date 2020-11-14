@@ -16,7 +16,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">The Finish Line</a>
+        <a class="navbar-brand" href="#">The Finish Line - Database</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,17 +24,26 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="./index.html">Lap Entry<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="./racers.html">Racers</a>
+                <!-- <a class="nav-item nav-link" href="./racers.html">Racers</a> -->
                 <a class="nav-item nav-link active" href="./database.html">Database</a>
             </div>
         </div>
     </nav>
-    <input type="file" id="fileUpload" onchange="Upload()"
+    <div class="container">
+
+        <div class="row pt-3">
+            <div class="col align-self-center">
+                <button id="browse" type="button" class="btn btn-primary">Upload</button>
+            </div>
+            <div class="col align-self-center">
+                <button id="download" type="button" class="btn btn-primary float-right">Download</button>
+            </div>
+        </div>
+    </div>
+    <input class="d-none" type="file" id="fileUpload" onchange="Upload()"
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-    <button type="button" id="download">DOWNLOAD</button>
     <hr />
     <div id="bars" class="container">
-        
     </div>
 
 
@@ -45,6 +54,7 @@
     <script src="./js/jszip.js"></script>
     <script src="./js/xlsx.core.min.js"></script>
     <script src="./js/db.js"></script>
+    <script src="./js/helper.js"></script>
     <script src="./js/index.js"></script>
 
 </body>
