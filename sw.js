@@ -14,7 +14,7 @@ var URLS = [                            // Add URL you want to cache in this lis
     '/tfl_js/manifest.json',
     '/tfl_js/js/bootstrap.min.js',
     '/tfl_js/js/db.js',
-    '/tfl_js/js/favicon.ico',
+    '/tfl_js/favicon.ico',
     '/tfl_js/img/icons/icon-144x144.png',
     '/tfl_js/js/jsstore.min.js',
     '/tfl_js/js/jsstore.worker.min.js',
