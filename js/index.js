@@ -408,7 +408,7 @@ function registerEvents() {
         $("#movedown").addClass("disabled");
     });
 
-    $('select').on('change', function (e) {
+    $('select').on('change',async function (e) {
         localStorage.setItem(this.id, this.value);
         if (this.id == "Season") {
             localStorage.removeItem("Round");
