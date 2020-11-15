@@ -11,6 +11,7 @@ const assets = [
     './js/jsstore.worker.min',
     './css/style.css',
     './css/bootstrap.min.css',
+    './css/bootstrap.min.css.map',
     '/manifest.json',
     '/img/icons/icon-144x144.png'
 ];
