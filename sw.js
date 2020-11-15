@@ -7,8 +7,6 @@ const assets = [
     './index.js',
     './helper.js',
     './jquery-3.5.1.min.js',
-    './jsstore.min.js',
-    './jsstore.worker.min',
     './style.css',
     './bootstrap.min.css',
     './bootstrap.min.css.map',
