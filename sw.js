@@ -11,6 +11,13 @@ const assets = [
     './bootstrap.min.css',
     './bootstrap.min.css.map',
     './manifest.json',
+    '/bootstrap.min.js',
+    '/db.js',
+    '/favicon.ico',
+    '/icon-144x144.png',
+    '/jsstore.min.js',
+    '/jsstore.worker.min.js',
+    '/popper.min.js',
 ];
 
 self.addEventListener('install', evt => {
