@@ -1,19 +1,19 @@
 const statisCacheName='site-static-v7';
 const dynamicCacheName='site-dynamic-v7';
 const assets = [
-    './',
-    './index.html',
-    './database.html',
-    './js/index.js',
-    './js/helper.js',
-    './js/jquery-3.5.1.min.js',
-    './js/jsstore.min.js',
-    './js/jsstore.worker.min',
-    './css/style.css',
-    './css/bootstrap.min.css',
-    './css/bootstrap.min.css.map',
-    '/manifest.json',
-    '/img/icons/icon-144x144.png'
+    './tfl_js/',
+    './tfl_js/index.html',
+    './tfl_js/database.html',
+    './tfl_js/js/index.js',
+    './tfl_js/js/helper.js',
+    './tfl_js/js/jquery-3.5.1.min.js',
+    './tfl_js/js/jsstore.min.js',
+    './tfl_js/js/jsstore.worker.min',
+    './tfl_js/css/style.css',
+    './tfl_js/css/bootstrap.min.css',
+    './tfl_js/css/bootstrap.min.css.map',
+    './tfl_js/manifest.json',
+    './tfl_js/img/icons/icon-144x144.png'
 ];
 
 self.addEventListener('install', evt => {

@@ -1,3 +1,7 @@
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+}
+
 window.onload = function () {
     initDb();
     loadAllSelect();
