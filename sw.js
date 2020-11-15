@@ -1,5 +1,5 @@
-const statisCacheName='site-static-v8';
-const dynamicCacheName='site-dynamic-v8';
+const statisCacheName='site-static-v9';
+const dynamicCacheName='site-dynamic-v9';
 const assets = [
     '/tfl_js/',
     '/tfl_js/index.html',
