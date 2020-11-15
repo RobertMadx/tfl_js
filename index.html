@@ -143,8 +143,11 @@
         <div id="results"></div>
     </div>
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('./sw.js')
+        // }
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker.register('/sw.js', { scope: '/tfl_js/' })
         }
     </script>
     <script src="./js/jquery-3.5.1.min.js"></script>
