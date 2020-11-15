@@ -1,5 +1,5 @@
 var textFields = ['Number', 'FirstName', 'LastName', 'Model', 'Classes', 'Name']
-var db = new JsStore.Connection(new Worker("./tfl_js/jsstore.worker.min.js"));
+var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
 async function loadAllSelect() {
     await loadSelect("Season");
