@@ -13,7 +13,6 @@ const assets = [
     '/tfl_js/css/bootstrap.min.css',
     '/tfl_js/css/bootstrap.min.css.map',
     '/tfl_js/manifest.json',
-    '/tfl_js/img/icons/icon-144x144.png'
 ];
 
 self.addEventListener('install', evt => {
