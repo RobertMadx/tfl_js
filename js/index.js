@@ -1,5 +1,3 @@
-
-
 window.onload = function () {
     initDb();
     loadAllSelect();
@@ -7,6 +5,13 @@ window.onload = function () {
     registerEvents();
 };
 
+async function loadAllSelect() {
+    await loadSelect("Season");
+    await loadSelect("Round", "Season", parseInt(localStorage.getItem("Season")));
+    await loadSelect("Race", "Round", parseInt(localStorage.getItem("Round")));
+    await loadSelect("Group");
+    await loadSelect("Class");
+}
 
 
 function display(html, id) {
@@ -282,9 +287,203 @@ async function refreshTableData(selected = "") {
 }
 
 
+function registerEvents() {
+    $("#browse").click(function () {
+        $("#fileUpload").click();
+    });
+    $('#Number_input').on('keypress', function (e) {
+        if (e.key == 'Enter') {
+            Process_number();
+        }
+    });
+    $('#delete').on('click', async function (e) {
+        if ($("#selectall").hasClass("active")) {
+            let num = $('#disp').html();
+            let group = parseInt($('#Group').val());
+            let race = parseInt($('#Race').val());
+            await db.remove({
+                from: "Lap_Race",
+                where: {
+                    Group_id: group,
+                    Race_id: race,
+                    Number: num
+                }
+            });
+            refreshTableData();
+        } else {
+            let id = parseInt($('#disp').data('identity'));
+            await db.remove({
+                from: "Lap_Race",
+                where: { id: id, }
+            });
+            refreshTableData();
+        }
+    })
 
+    $('#moveup').on('click', async function (e) {
+        if (!$("#moveup").hasClass("disabled")) {
+            let id = $('#disp').data('identity');
+            let group = parseInt($('#Group').val());
+            let race = parseInt($('#Race').val());
+            const results = await db.select({
+                from: "Lap_Race",
+                where: {
+                    Group_id: group,
+                    Race_id: race
+                },
+            });
+            for (let i = 0; i < results.length; i++) {
+                if (results[i].id == id && i > 0) {
+                    let valuea = results[i].Number
+                    let valueb = results[i - 1].Number
+                    await db.update({
+                        in: "Lap_Race", set: { Number: valueb }, where: { id: results[i].id }
+                    });
+                    await db.update({
+                        in: "Lap_Race", set: { Number: valuea }, where: { id: results[i - 1].id }
+                    });
+                    $("#disp").data("identity", results[i - 1].id);
+                    refreshTableData(results[i - 1].id);
+                    return;
+                }
+            }
+        }
+    });
+    $('#movedown').on('click', async function (e) {
+        if (!$("#movedown").hasClass("disabled")) {
+            let id = $('#disp').data('identity');
+            let group = parseInt($('#Group').val());
+            let race = parseInt($('#Race').val());
+            const results = await db.select({
+                from: "Lap_Race",
+                where: {
+                    Group_id: group,
+                    Race_id: race
+                },
+            });
+            for (let i = 0; i < results.length; i++) {
+                if (results[i].id == id && i < results.length - 1) {
+                    let valuea = results[i].Number
+                    let valueb = results[i + 1].Number
+                    await db.update({
+                        in: "Lap_Race", set: { Number: valueb }, where: { id: results[i].id }
+                    });
+                    await db.update({
+                        in: "Lap_Race", set: { Number: valuea }, where: { id: results[i + 1].id }
+                    });
+                    $("#disp").data("identity", results[i + 1].id);
+                    refreshTableData(results[i + 1].id);
+                    return;
+                }
+            }
+        }
+    });
 
+    $('#Clear_all').on('click', function (e) {
+        clear_all();
+    });
 
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
+    $('#Submit').on('click', function (e) {
+        Process_number();
+    });
 
+    $('#download').on('click', function (e) {
+        DownloadDatabase();
+    });
+    $('#selectall').on('click', function (e) {
+        $('.entry').each(function () {
+            if ($(this).html() == $('#disp').html()) {
+                $(this).addClass("active");
+            } else {
+                $(this).removeClass("active");
+
+            }
+        });
+        $("#selectall").addClass("active");
+        $("#moveup").addClass("disabled");
+        $("#movedown").addClass("disabled");
+    });
+
+    $('select').on('change', function (e) {
+        localStorage.setItem(this.id, this.value);
+        if (this.id == "Season") {
+            localStorage.removeItem("Round");
+            localStorage.removeItem("Race");
+            localStorage.removeItem("Group");
+            await loadSelect("Round", "Season", parseInt(localStorage.getItem("Season")));
+            await loadSelect("Race", "Round", parseInt(localStorage.getItem("Round")));
+            await loadSelect("Group");
+            
+        } 
+        if (this.id == "Round") {
+            localStorage.removeItem("Race");
+            await loadSelect("Race", "Round", parseInt(localStorage.getItem("Round")));
+        }
+        
+        refreshTableData();
+    });
+
+}
+
+async function Process_number() {
+    let num = $('#Number_input').val().toUpperCase();
+    let group = parseInt($('#Group').val());
+    let race = parseInt($('#Race').val());
+    if (group && race && num != "") {
+        $('#Number_input').val("");
+        var laprace = {
+            Number: num,
+            Group_id: group,
+            Race_id: race,
+        };
+        try {
+            var noOfDataInserted = await db.insert({
+                into: 'Lap_Race',
+                values: [laprace]
+            });
+            if (noOfDataInserted === 1) {
+                refreshTableData();
+            }
+        } catch (ex) {
+            alert(ex.message);
+        }
+    }
+}
+
+async function clear_laps() {
+    await $(".lap-row").each(function (index, element) {
+        $(this).html("");
+    });
+    await $(".lap").each(function (index, element) {
+        $(this).removeClass("active");
+    });
+    for (i = 1; i <= 9; i++) {
+        $('#laprow' + i).addClass("d-none");
+    }
+    $("#racercard").addClass("d-none");
+}
+
+async function clear_all() {
+    $("#racercard").addClass("d-none");
+    let group = parseInt($('#Group').val());
+    let race = parseInt($('#Race').val());
+    if (group && race) {
+        try {
+            await db.remove({
+                from: 'Lap_Race',
+                where: {
+                    Group_id: group,
+                    Race_id: race,
+                },
+            });
+            refreshTableData();
+        } catch (ex) {
+            alert(ex.message);
+        }
+    }
+}
 

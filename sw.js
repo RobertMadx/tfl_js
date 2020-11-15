@@ -1,11 +1,17 @@
 var APP_PREFIX = 'TheFinishLine_'     // Identifier for this app (this needs to be consistent across every cache update)
-var VERSION = 'version_04'              // Version of the off-line cache (change this value everytime you want to update cache)
+var VERSION = 'version_05'              // Version of the off-line cache (change this value everytime you want to update cache)
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [                            // Add URL you want to cache in this list.
     '/tfl_js/',                     // If you have separate JS/CSS files,
     '/tfl_js/index.html',            // add path to those files here
     '/tfl_js/database.html',
+    '/tfl_js/entries.html',
+    '/tfl_js/results.html',
+    '/tfl_js/season_class.html',
+    '/tfl_js/racers.html',
     '/tfl_js/js/index.js',
+    '/tfl_js/js/results.js',
+    '/tfl_js/js/database.js',
     '/tfl_js/js/helper.js',
     '/tfl_js/js/jquery-3.5.1.min.js',
     '/tfl_js/css/style.css',
@@ -24,11 +30,11 @@ var URLS = [                            // Add URL you want to cache in this lis
 
 // Respond with cached resources
 self.addEventListener('fetch', function (e) {
-    console.log('fetch request : ' + e.request.url)
+    // console.log('fetch request : ' + e.request.url)
     e.respondWith(
         caches.match(e.request).then(function (request) {
             if (request) { // if cache is available, respond with cache
-                console.log('responding with cache : ' + e.request.url)
+                // console.log('responding with cache : ' + e.request.url)
                 return request
             } else {       // if there are no cache, try fetching request
                 console.log('file is not cached, fetching : ' + e.request.url)
@@ -45,7 +51,7 @@ self.addEventListener('fetch', function (e) {
 self.addEventListener('install', function (e) {
     e.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
-            console.log('installing cache : ' + CACHE_NAME)
+            // console.log('installing cache : ' + CACHE_NAME)
             return cache.addAll(URLS)
         })
     )
@@ -65,7 +71,7 @@ self.addEventListener('activate', function (e) {
 
             return Promise.all(keyList.map(function (key, i) {
                 if (cacheWhitelist.indexOf(key) === -1) {
-                    console.log('deleting cache : ' + keyList[i])
+                    // console.log('deleting cache : ' + keyList[i])
                     return caches.delete(keyList[i])
                 }
             }))

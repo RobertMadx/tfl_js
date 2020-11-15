@@ -167,6 +167,10 @@ function getDbSchema() {
                 notNull: true,
                 dataType: 'number'
             },
+            Season_id: {
+                notNull: true,
+                dataType: 'number'
+            },
         }
     }
     var Entry = {
@@ -208,6 +212,10 @@ function getDbSchema() {
                 dataType: 'number'
             },
             Position: {
+                notNull: true,
+                dataType: 'number'
+            },
+            Points: {
                 notNull: true,
                 dataType: 'number'
             },
