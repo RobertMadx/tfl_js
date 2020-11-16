@@ -66,7 +66,7 @@
 
         </div>
 
-        <div class="row pb-2">
+        <div class="row">
             <div id="racercard" class="col card text-center d-none">
                 <div class="row">
                     <div class="col pb-1">
@@ -74,13 +74,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col text-left p-0">
+                    <div class="col-2 text-left p-0">
                         <button id="moveup" class='btn btn-outline-dark p-1'>Up</button>
                     </div>
                     <div class="col">
                         <button id="disp" class='btn btn-outline-primary p-1'>###</button>
+                        to:
+                        <input class="d-inline" type="text" style="width: 50px;">
+                        <button id="change" class='btn btn-outline-dark p-1'>Change</button>
                     </div>
-                    <div class="col text-right p-0">
+                    <div class="col-2 text-right p-0">
                         <button id="movedown" class='btn btn-outline-dark p-1'>Down</button>
                     </div>
                 </div>
@@ -103,7 +106,16 @@
                     <input id="Number_input" placeholder="Select Option Above" type="text"
                         class="form-control text-center username-field" autocomplete="off" disabled>
                 </div>
-                <button id="Clear_all" class="btn btn-primary">Reset ALL</button>
+            </div>
+        </div>
+        <div class="row pb-2">
+            <div class="col">
+                <button id="Clear_all" class="btn btn-primary">Remove ALL</button>
+            </div>
+            <div class="col text-center">
+                <button id="Save" class="btn btn-primary">Save Results</button>
+            </div>
+            <div class="col">
                 <button id="Submit" class="btn btn-primary float-right">Submit</button>
             </div>
         </div>
@@ -143,6 +155,7 @@
             <div><button class='btn btn-outline-dark lap p-1' id='lapbtn9'>Lap9:</button></div>
             <div id="Lap9" class="col lap-row"></div>
         </div>
+        <h5>Results:</h5>
         <div id="results"></div>
     </div>
     <script>

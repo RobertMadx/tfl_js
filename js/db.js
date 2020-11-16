@@ -18,6 +18,10 @@ function getDbSchema() {
                 notNull: true,
                 dataType: 'number'
             },
+            Round_id: {
+                notNull: true,
+                dataType: 'number'
+            },
         }
     }
     var Racer = {
@@ -163,14 +167,6 @@ function getDbSchema() {
                 notNull: true,
                 dataType: 'string'
             },
-            Round_id: {
-                notNull: true,
-                dataType: 'number'
-            },
-            Season_id: {
-                notNull: true,
-                dataType: 'number'
-            },
         }
     }
     var Entry = {
@@ -207,16 +203,26 @@ function getDbSchema() {
                 notNull: true,
                 dataType: 'number'
             },
-            Race_id: {
+            Round_id: {
                 notNull: true,
                 dataType: 'number'
             },
-            Position: {
-                notNull: true,
+            POS1: {
                 dataType: 'number'
             },
-            Points: {
-                notNull: true,
+            PTS1: {
+                dataType: 'number'
+            },
+            POS2: {
+                dataType: 'number'
+            },
+            PTS2: {
+                dataType: 'number'
+            },
+            POS3: {
+                dataType: 'number'
+            },
+            PTS3: {
                 dataType: 'number'
             },
         }

@@ -8,8 +8,8 @@ window.onload = function () {
 async function loadAllSelect() {
     await loadSelect("Season");
     await loadSelect("Round", "Season", parseInt(localStorage.getItem("Season")));
-    await loadSelect("Race", "Round", parseInt(localStorage.getItem("Round")));
     await loadSelect("Group");
+    await loadSelect("Race");
     await loadSelect("Class");
 }
 
@@ -29,6 +29,7 @@ async function refreshTableData(selected = "") {
     clear_laps();
     let group = parseInt(localStorage.getItem("Group"));
     let race = parseInt(localStorage.getItem("Race"));
+    let round = parseInt(localStorage.getItem("Round"));
     let season = parseInt(localStorage.getItem("Season"));
     let classes = [];
     let classes_id = [];
@@ -36,6 +37,7 @@ async function refreshTableData(selected = "") {
     let laps_done = [];
     let last_lap = [];
     let entries = [];
+    let entries_id = [];
     let names = [];
     let bikes = [];
     let lap_results = [];
@@ -43,7 +45,11 @@ async function refreshTableData(selected = "") {
 
     if (group && race) {
         $("#Number_input").prop("disabled", false);
+        $("#Submit").prop("disabled", false);
+        $("#Clear_all").prop("disabled", false);
+        $("#Save").prop("disabled", false);
         $("#Number_input").attr("placeholder", "Enter Number Here");
+        $("#Number_input").focus();
 
         let group_db = await db.select({
             from: "Group",
@@ -73,12 +79,14 @@ async function refreshTableData(selected = "") {
                 },
             })
             entries.push([])
+            entries_id.push([])
             names.push([])
             bikes.push([])
             lap_results.push([])
             lap_results_final.push([])
             for (let e = 0; e < entry_db.length; e++) {
                 entries[i].push(entry_db[e].Number);
+                entries_id[i].push(entry_db[e].id);
                 const racer = await db.select({
                     from: "Racer",
                     where: {
@@ -111,7 +119,8 @@ async function refreshTableData(selected = "") {
             from: "Lap_Race",
             where: {
                 Group_id: group,
-                Race_id: race
+                Race_id: race,
+                Round_id: round,
             },
         });
 
@@ -226,14 +235,16 @@ async function refreshTableData(selected = "") {
             for (let j = 0; j < lap_results_final[i].length; j++) {
                 let index;
                 let info;
+                let id;
                 for (let k = 0; k < entries.length; k++) {
                     index = entries[k].indexOf(lap_results_final[i][j])
                     if (index != -1) {
                         info = k
+                        id = entries_id[k][index]
                         break;
                     }
                 }
-                $(`#class_${classes_id[i]}`).append(racebtngrp(lap_results_final[i][j], i, "", j + 1, names[info][index], bikes[info][index], lap_count[last_numbers.indexOf(lap_results_final[i][j])]));
+                $(`#class_${classes_id[i]}`).append(racebtngrp(lap_results_final[i][j], i, id, j + 1, names[info][index], bikes[info][index], lap_count[last_numbers.indexOf(lap_results_final[i][j])]));
             }
         }
 
@@ -283,13 +294,83 @@ async function refreshTableData(selected = "") {
         $("#Number_input").prop("disabled", true);
         $("#Number_input").attr("placeholder", "Select Option Above");
         $("#results").html("");
+        $("#Submit").prop("disabled", true);
+        $("#Clear_all").prop("disabled", true);
+        $("#Save").prop("disabled", true);
     }
+
 }
 
 
 function registerEvents() {
     $("#browse").click(function () {
         $("#fileUpload").click();
+    });
+    $("#Save").click(async function () {
+        let classes_id = [];
+        let race = parseInt(localStorage.getItem("Race"));
+        let round = parseInt(localStorage.getItem("Round"));
+        let group = parseInt(localStorage.getItem("Group"));
+        let season = parseInt(localStorage.getItem("Season"));
+        let group_db = await db.select({
+            from: "Group",
+            where: {
+                id: group
+            },
+        });
+        classes_id = await (group_db[0].Classes).split(",")
+        for (let c = 0; c < classes_id.length; c++) {
+
+            const season_class = await db.select({
+                from: "Season_Class",
+                where: {
+                    Season_id: season,
+                    Class_id: parseInt(classes_id[c]),
+                },
+            });
+            const entry_db = await db.select({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[0].id,
+                },
+            })
+            for (let e = 0; e < entry_db.length; e++) {
+                const result_db = await db.select({
+                    from: "Result",
+                    where: {
+                        Entry_id: entry_db[e].id,
+                        Round_id: round
+                    },
+                })
+                if (result_db.length > 0) {
+                    await db.update({
+                        in: "Result", set: { [`PTS${race}`]: 0, [`POS${race}`]: 0 }, where: { Entry_id: entry_db[e].id, Round_id: round }
+                    });
+                }
+            }
+            let i = 1;
+            let btn_order = $(`#class_${classes_id[c]}`).children();
+            for (let b = 0; b < btn_order.length; b++) {
+
+                let entry_id = parseInt(btn_order[b].id)
+                const result_db = await db.select({
+                    from: "Result",
+                    where: {
+                        Entry_id: entry_id,
+                        Round_id: round
+                    },
+                })
+                if (result_db.length > 0) {
+                    await db.update({
+                        in: "Result", set: { [`PTS${race}`]: postopoints(i), [`POS${race}`]: i }, where: { Entry_id: entry_id, Round_id: round }
+                    });
+                } else {
+                    await insertdb("Result", { Entry_id: entry_id, Round_id: round, [`PTS${race}`]: postopoints(i), [`POS${race}`]: i })
+                }
+                i++;
+            }
+        }
+        console.log("Done")
     });
     $('#Number_input').on('keypress', function (e) {
         if (e.key == 'Enter') {
@@ -408,22 +489,14 @@ function registerEvents() {
         $("#movedown").addClass("disabled");
     });
 
-    $('select').on('change',async function (e) {
+    $('select').on('change', async function (e) {
         localStorage.setItem(this.id, this.value);
         if (this.id == "Season") {
             localStorage.removeItem("Round");
-            localStorage.removeItem("Race");
             localStorage.removeItem("Group");
             await loadSelect("Round", "Season", parseInt(localStorage.getItem("Season")));
-            await loadSelect("Race", "Round", parseInt(localStorage.getItem("Round")));
             await loadSelect("Group");
-            
-        } 
-        if (this.id == "Round") {
-            localStorage.removeItem("Race");
-            await loadSelect("Race", "Round", parseInt(localStorage.getItem("Round")));
         }
-        
         refreshTableData();
     });
 
@@ -484,6 +557,7 @@ async function clear_all() {
         } catch (ex) {
             alert(ex.message);
         }
+        $("#Number_input").focus();
     }
 }
 

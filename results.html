@@ -62,18 +62,19 @@
     <table id="results" class="table table-hover table-sm table-striped">
         <thead>
             <tr>
-                <th id="cls_name" scope="col" colspan="3" class="text-left border-right border-left"></th>
+                <th id="cls_name" scope="col" colspan="5" class="text-left border-right border-left"></th>
                 <th scope="col" colspan="2" class="text-center border-right border-left">Race 1</th>
                 <th scope="col" colspan="2" class="text-center border-right border-left">Race 2</th>
                 <th scope="col" colspan="2" class="text-center border-right border-left">Race 3</th>
                 <th scope="col" colspan="2" class="text-center border-right border-left">Round total</th>
                 <th scope="col" colspan="2" class="text-center border-right border-left">Grand total</th>
-
             </tr>
             <tr>
                 <th scope="col" class="text-center">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Bike(Year Model CC)</th>
+                <th scope="col"></th>
+                <th scope="col">Bike</th>
+                <th scope="col"></th>
                 <th scope="col" class="text-center border-left">POS</th>
                 <th scope="col" class="text-center border-right">PTS</th>
                 <th scope="col" class="text-center border-left">POS</th>
@@ -86,26 +87,52 @@
                 <th scope="col" class="text-center border-right">PTS</th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="border-bottom">
-                <th scope="row">1</th>
-                <td>Mark Orro</td>
-                <td>1990 CR 250</td>
-                <td class="text-center border-left">1</td>
-                <td class="text-center border-right">25</td>
-                <td class="text-center border-left">1</td>
-                <td class="text-center border-right">25</td>
-                <td class="text-center border-left">1</td>
-                <td class="text-center border-right">25</td>
-                <td class="text-center border-left">1</td>
-                <td class="text-center border-right">25</td>
-                <td class="text-center border-left">1</td>
-                <td class="text-center border-right">75</td>
-            </tr>
+        <tbody id="tbody">
+            
         </tbody>
     </table>
-    <div class="col align-self-center">
-        <button id="download" type="button" class="btn btn-primary float-right">Download</button>
+
+    <table id="hidden_results" class="table table-hover table-sm table-striped d-none">
+        <thead>
+            <tr>
+                <th id="cls_name" scope="col" colspan="5" class="text-left border-right border-left"></th>
+                <th scope="col" colspan="2" class="text-center border-right border-left">Race 1</th>
+                <th scope="col" colspan="2" class="text-center border-right border-left">Race 2</th>
+                <th scope="col" colspan="2" class="text-center border-right border-left">Race 3</th>
+                <th scope="col" colspan="2" class="text-center border-right border-left">Round total</th>
+                <th scope="col" colspan="2" class="text-center border-right border-left">Grand total</th>
+
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+                <th scope="col">Bike(Year Model CC)</th>
+                <th scope="col"></th>
+                <th scope="col" class="text-center border-left">Position</th>
+                <th scope="col" class="text-center border-right">Points</th>
+                <th scope="col" class="text-center border-left">Position</th>
+                <th scope="col" class="text-center border-right">Points</th>
+                <th scope="col" class="text-center border-left">Position</th>
+                <th scope="col" class="text-center border-right">Points</th>
+                <th scope="col" class="text-center border-left">Position</th>
+                <th scope="col" class="text-center border-right">Points</th>
+                <th scope="col" class="text-center border-left">Position</th>
+                <th scope="col" class="text-center border-right">Points</th>
+            </tr>
+        </thead>
+        <tbody id="hidden_tbody">
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col align-self-center">
+            <button id="downloadall" type="button" class="btn btn-primary float-left">Download All Classes</button>
+        </div>
+        <div id="bars" class="col">
+        </div>
+        <div class="col align-self-center">
+            <button id="download" type="button" class="btn btn-primary float-right">Download Class</button>
+        </div>
     </div>
     <script src="./js/jquery-3.5.1.min.js"></script>
     <script src="./js/popper.min.js"></script>
