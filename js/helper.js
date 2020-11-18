@@ -1,4 +1,6 @@
 
+document.title += " - v0.3";
+
 var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
 async function initDb() {
