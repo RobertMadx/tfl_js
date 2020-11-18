@@ -1,6 +1,6 @@
 var racersortby = "FirstName"
 var racersortbytype = "asc"
-var max_lines = 10;
+var max_lines = 15;
 var offset = 0;
 var page = 1;
 var racers;
@@ -22,6 +22,11 @@ async function registerEvents() {
         racersortbytype = racersortbytype == "asc" ? "desc" : "asc";
         await loadracers();
         refreshTableData();
+    })
+    $('#delete').on('click', async function (e) {
+        console.log($(this).data("id"))
+        console.log($(this).data("table"))
+
     })
     $('.new').keyup(async function (e) {
         let first = $("#FirstName").val()
@@ -58,7 +63,7 @@ async function registerEvents() {
         if (racer_check.length == 0 && first && last) {
             $("#FirstName").val("")
             $("#LastName").val("")
-            await insertdb("Racer",{
+            await insertdb("Racer", {
                 FirstName: first,
                 LastName: last,
             })
@@ -67,9 +72,9 @@ async function registerEvents() {
             $(`#add_new`).addClass("btn-secondary");
             $(`#add_new`).addClass("disabled");
             $(`#add_new`).removeClass("btn-success");
-        } 
+        }
     })
-   
+
 }
 
 async function loadracers(first = null, last = null) {
@@ -106,7 +111,19 @@ async function refreshTableData() {
     let pages = Math.ceil(racers.length / max_lines) - 1;
     offset = page > 1 ? (page * max_lines) : 0
     for (let r = offset; (r < racers.length && r < (offset + max_lines)); r++) {
-        $(`#racers_body`).append(await racerrow(racers[r].FirstName, racers[r].LastName, racers[r].id));
+        const entries_count = await db.count({
+            from: "Entry",
+            where: {
+                Racer_id: parseInt(racers[r].id),
+            },
+        })
+        const bikes_count = await db.count({
+            from: "Bike",
+            where: {
+                Racer_id: parseInt(racers[r].id),
+            },
+        })
+        $(`#racers_body`).append(await racerrow(racers[r].FirstName, racers[r].LastName, racers[r].id, entries_count, bikes_count));
     }
     $("#paginate").html("");
     if (page == 1) {
@@ -146,6 +163,27 @@ async function refreshTableData() {
             refreshTableData()
         }
     })
+    $('.editr').on('input', async function (e) {
+        let number = $(`#number_${e.target.dataset.id}`).val();
+        let bike_id = parseInt($(`#bike_${e.target.dataset.id}`).val());
+        let racer_id = parseInt($(`#name_${e.target.dataset.id}`).val());
+        const entry_check = await db.select({
+            from: "Entry",
+            where: {
+                id: parseInt(e.target.dataset.id),
+            },
+        })
+        if (number != entry_check[0].Number || bike_id != entry_check[0].Bike_id || racer_id != entry_check[0].Racer_id) {
+            $(`#save_${e.target.dataset.id}`).removeClass("btn-secondary");
+            $(`#save_${e.target.dataset.id}`).addClass("btn-success");
+            $(`#save_${e.target.dataset.id}`).prop("disabled", false);
+        } else {
+            $(`#save_${e.target.dataset.id}`).addClass("btn-secondary");
+            $(`#save_${e.target.dataset.id}`).removeClass("btn-success");
+            $(`#save_${e.target.dataset.id}`).prop("disabled", true);
+        }
+
+    });
     $('.racer').on('click', async function () {
         $('.racer').removeClass("table-success");
         $(this).addClass("table-success");
@@ -158,11 +196,58 @@ async function refreshTableData() {
         })
         $('#bikes_body').html("");
         for (let b = 0; b < bikes.length; b++) {
-            $('#bikes_body').append(await bikerow(bikes[b].Year,bikes[b].Model,bikes[b].CC,bikes[b].id))
-            
+            $('#bikes_body').append(await bikerow(bikes[b].Year, bikes[b].Model, bikes[b].CC, bikes[b].id))
         }
-        console.log($(this).attr("id"))
-        console.log(bikes)
+        $('.delete').on('click', async function (e) {
+            let id = parseInt($(this).data("id"))
+            let table = $(this).data("table")
+            confirmDelete(id, table)
+        })
+    })
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    $('.delete').on('click', async function (e) {
+        let id = parseInt($(this).data("id"))
+        let table = $(this).data("table")
+        confirmDelete(id, table)
     })
 
+}
+
+async function confirmDelete(id, table) {
+    $(".modal-body").html("");
+    if (table == "Racer") {
+        const delete_bikes = await db.count({
+            from: "Bike",
+            where: {
+                Racer_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Bikes to be deleted: ${delete_bikes}</p>`);
+
+        const delete_entries = await db.select({
+            from: "Entry",
+            where: {
+                Racer_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Entries to be deleted: ${delete_entries.length}</p>`);
+        let count_results = 0;
+        for (let e = 0; e < delete_entries.length; e++) {
+            const delete_results = await db.count({
+                from: "Result",
+                where: {
+                    Entry_id: id
+                }
+            })
+            count_results += delete_results
+        }
+        $(".modal-body").append(`<p>Results to be deleted: ${count_results}</p>`);
+    } else {
+
+    }
+    $("#deleteModalLabel").text(`Delete ${table}`)
+    $("#delete").data("id", id)
+    $("#delete").data("table", table)
 }

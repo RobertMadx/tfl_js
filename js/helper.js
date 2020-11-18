@@ -328,18 +328,23 @@ async function entryrow(entry_id,number,name,bike,racer_id,bike_id,racers_db,bik
     `;
 }
 
-async function racerrow(firstname,lastname,racer_id){
+async function racerrow(firstname,lastname,racer_id,entries=0,bikes=0){
     return `
     <tr id="${racer_id}" class="racer">
-        <td scope="col" class="text-center border">
-            <input id="firstname_${racer_id}" data-id="${racer_id}" style="font-size: 20px;width: 150px;" type="text" class="text-center edit" value="${firstname}">
+        <td scope="col" class="text-center border p-0">
+            <input id="firstname_${racer_id}" data-id="${racer_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editr bg-transparent" value="${firstname}">
         </td>
-        <td scope="col" class="text-center border">
-            <input id="lastname_${racer_id}" data-id="${racer_id}" style="font-size: 20px;width: 150px;" type="text" class="text-center edit" value="${lastname}">
+        <td scope="col" class="text-center border p-0">
+            <input id="lastname_${racer_id}" data-id="${racer_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editr bg-transparent" value="${lastname}">
         </td>
-        <td scope="col" class="text-center border">
-            <botton id="save_${racer_id}" data-id="${racer_id}" class="btn btn-secondary float-left save disabled">Save</botton>
-            <botton class="btn btn-danger delete float-right" data-id="${racer_id}">Delete</botton>
+        <td scope="col" class="text-center border p-0">
+            <botton id="save_${racer_id}" data-id="${racer_id}" class="btn btn-secondary float-left save p-0 disabled">Save</botton>
+            <botton class="btn btn-danger delete float-right p-0" data-toggle="modal" data-target="#deleteModal" data-table="Racer" data-id="${racer_id}">Delete</botton>
+        </td>
+        <td scope="col" class="text-center border p-0">
+        <button type="button" class="btn btn-secondary p-0" data-toggle="tooltip" data-placement="left" title="Entries:${entries} Bikes:${bikes}">
+            E:${entries} B:${bikes}
+        </button>
         </td>
     </tr>
     `;
@@ -348,18 +353,18 @@ async function racerrow(firstname,lastname,racer_id){
 async function bikerow(Year,Model,CC,bike_id){
     return `
     <tr id="bike_${bike_id}" class="racer">
-        <td scope="col" class="text-center border">
-            <input id="Year_${bike_id}" data-id="${bike_id}" style="font-size: 20px;width: 80px;" type="text" class="text-center edit" value="${Year}">
+        <td scope="col" class="text-center border p-0 w-25">
+            <input id="Year_${bike_id}" data-id="${bike_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editb" value="${Year}">
         </td>
-        <td scope="col" class="text-center border">
-            <input id="Model_${bike_id}" data-id="${bike_id}" style="font-size: 20px;width: 150px;" type="text" class="text-center edit" value="${Model}">
+        <td scope="col" class="text-center border p-0 w-25">
+            <input id="Model_${bike_id}" data-id="${bike_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editb" value="${Model}">
         </td>
-        <td scope="col" class="text-center border">
-            <input id="CC_${bike_id}" data-id="${bike_id}" style="font-size: 20px;width: 80px;" type="text" class="text-center edit" value="${CC}">
+        <td scope="col" class="text-center border p-0 w-25">
+            <input id="CC_${bike_id}" data-id="${bike_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editb" value="${CC}">
         </td>
-        <td scope="col" class="text-center border">
-            <botton id="save_${bike_id}" data-id="${bike_id}" class="btn btn-secondary float-left save disabled">Save</botton>
-            <botton class="btn btn-danger delete float-right" data-id="${bike_id}">Delete</botton>
+        <td scope="col" class="text-center border p-0 w-25">
+        <botton id="save_${bike_id}" data-id="${bike_id}" class="btn btn-secondary float-left save disabled p-0">Save</botton>
+        <botton class="btn btn-danger delete float-right p-0" data-table="Bike" data-id="${bike_id}">Delete</botton>
         </td>
     </tr>
     `;
