@@ -1,5 +1,5 @@
 
-document.title += " - v0.7";
+document.title += " - v0.8";
 
 var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
