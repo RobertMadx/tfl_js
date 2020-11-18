@@ -1,7 +1,7 @@
 {
-    "name": "The Finish Line",
+    "name": "The Finish Line 0.9",
     "short_name": "TheFinishLine",
-    "start_url": "./img/icons/index.html",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#FFE9D2",
     "theme_color": "#FFE1C4",
