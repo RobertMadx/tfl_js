@@ -265,7 +265,86 @@ async function loadSelect(src, origin, originvalue) {
     }
 }
 
+function entrytable(cls, cls_id, sc){
+    return `
+    <h4>${cls}</h4>
+    <table class="table table-hover table-sm table-striped">
+        <thead>
+            <tr id="entry_">
+                <td scope="col" class="text-center border">
+                    <input id="number_new_${sc}" data-sc="${sc}" style="font-size: 20px;width: 100px;" placeholder="Number" type="text" class="text-center new" value="">
+                </td>
+                <td scope="col" class="text-center border">
+                    <select id="name_new_${sc}" data-sc="${sc}" class="form-control new" id="Season">
+                        <option value="0" selected disabled>Select Racer</option>
+                    </select>
+                </td>
+                <td scope="col" class="text-center border">
+                    <select id="bike_new_${sc}" data-sc="${sc}" class="form-control new" id="Season">
+                        <option value="0" selected disabled>Select Bike</option>
+                    </select>
+                </td>
+                <td scope="col" class="text-center border">
+                    <botton id="add_new" data-sc="${sc}" class="btn btn-secondary float-left new">ADD NEW</botton>
+                </td>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center border-right border-left">Number</th>
+                <th scope="col" class="text-center border-right border-left">Name</th>
+                <th scope="col" class="text-center border-right border-left">Bike</th>
+                <th scope="col" class="text-center border-right border-left">Action</th>
+            </tr>
+        </thead>
+        <tbody id="class_${cls_id}">
+        </tbody>
+    </table>
+    `;
+}
+async function entryrow(entry_id,number,name,bike,racer_id,bike_id,racers_db,bikes_db){
+    return `
+    <tr id="entry_${entry_id}">
+        <td scope="col" class="text-center border">
+            <input id="number_${entry_id}" data-id="${entry_id}" style="font-size: 20px;width: 100px;" type="text" class="text-center edit" value="${number}">
+        </td>
+        <td scope="col" class="text-center border">
+            <select id="name_${entry_id}" data-id="${entry_id}" class="form-control edit" id="Season">
+                <option value="${racer_id}" selected>${name}</option>
+                ${await getraceroptions(racers_db)}
+            </select>
+        </td>
+        <td scope="col" class="text-center border">
+            <select id="bike_${entry_id}" data-id="${entry_id}" class="form-control edit" id="Season">
+                <option value="${bike_id}" selected>${bike}</option>
+                ${await getbikeoptions(bikes_db)}
+            </select>
+        </td>
+        <td scope="col" class="text-center border">
+            <botton id="save_${entry_id}" data-id="${entry_id}" class="btn btn-secondary float-left save">Save</botton>
+            <botton class="btn btn-danger delete float-right" data-id="${entry_id}">Delete</botton>
+        </td>
+    </tr>
+    `;
+}
 
+async function getraceroptions(racer_db){
+    let html;
+    for (let i = 0; i < racer_db.length; i++) {
+        html += await option(racer_db[i].id,`${racer_db[i].FirstName} ${racer_db[i].LastName}`);
+    }
+    return html;
+}
+
+async function getbikeoptions(bike_db){
+    let html;
+    for (let i = 0; i < bike_db.length; i++) {
+        html += await option(bike_db[i].id,`${bike_db[i].Year>0?bike_db[i].Year:""} ${bike_db[0].Model} ${bike_db[0].CC>0?bike_db[i].CC:""}`);
+    }
+    return html;
+}
+
+async function option(id,name){
+return `<option value="${id}">${name}</option>`;
+}
 
 function progressbar(id) {
     const html = `

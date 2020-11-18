@@ -51,7 +51,7 @@ async function refreshTableData(selected = "") {
         $("#Number_input").attr("placeholder", "Enter Number Here");
         $("#Number_input").focus();
 
-        let group_db = await db.select({
+        const group_db = await db.select({
             from: "Group",
             where: {
                 id: group
@@ -174,7 +174,6 @@ async function refreshTableData(selected = "") {
         $('.entry').on('click', function (e) {
             $('.entry').removeClass("active");
             $(this).addClass("active");
-            console.log($(this).attr('class'));
             $('#disp').attr('class', $(this).attr('class'));
             display($(this).html(), $(this).attr('id'));
         });
@@ -216,7 +215,7 @@ async function refreshTableData(selected = "") {
             }
 
             if (!found) {
-                $("#unknown").append(racebtngrp(last_numbers[i]));
+                $("#Unknown").append(racebtngrp(last_numbers[i], 5));
             } else {
                 lap_results[clid].push(last_numbers[i])
             }
@@ -381,12 +380,14 @@ function registerEvents() {
         if ($("#selectall").hasClass("active")) {
             let num = $('#disp').html();
             let group = parseInt($('#Group').val());
+            let round = parseInt($('#Round').val());
             let race = parseInt($('#Race').val());
             await db.remove({
                 from: "Lap_Race",
                 where: {
                     Group_id: group,
                     Race_id: race,
+                    Round_id: round,
                     Number: num
                 }
             });
@@ -398,6 +399,35 @@ function registerEvents() {
                 where: { id: id, }
             });
             refreshTableData();
+        }
+    })
+
+    $('#change').on('click', async function (e) {
+        let changeto = $("#changeto").val();
+        if (changeto != "") {
+            if ($("#selectall").hasClass("active")) {
+                let num = $('#disp').html();
+                let group = parseInt($('#Group').val());
+                let round = parseInt($('#Round').val());
+                let race = parseInt($('#Race').val());
+                await db.update({
+                    in: "Lap_Race", 
+                    set: { Number: changeto }, 
+                    where: { 
+                        Group_id: group,
+                        Race_id: race,
+                        Round_id: round,
+                        Number: num
+                    }
+                });
+                refreshTableData();
+            } else {
+                let id = parseInt($('#disp').data('identity'));
+                await db.update({
+                    in: "Lap_Race", set: { Number: changeto }, where: { id: id }
+                });
+                refreshTableData();
+            }
         }
     })
 
