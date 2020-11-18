@@ -328,6 +328,56 @@ async function entryrow(entry_id,number,name,bike,racer_id,bike_id,racers_db,bik
     `;
 }
 
+async function racerrow(firstname,lastname,racer_id){
+    return `
+    <tr id="${racer_id}" class="racer">
+        <td scope="col" class="text-center border">
+            <input id="firstname_${racer_id}" data-id="${racer_id}" style="font-size: 20px;width: 150px;" type="text" class="text-center edit" value="${firstname}">
+        </td>
+        <td scope="col" class="text-center border">
+            <input id="lastname_${racer_id}" data-id="${racer_id}" style="font-size: 20px;width: 150px;" type="text" class="text-center edit" value="${lastname}">
+        </td>
+        <td scope="col" class="text-center border">
+            <botton id="save_${racer_id}" data-id="${racer_id}" class="btn btn-secondary float-left save disabled">Save</botton>
+            <botton class="btn btn-danger delete float-right" data-id="${racer_id}">Delete</botton>
+        </td>
+    </tr>
+    `;
+}
+
+async function bikerow(Year,Model,CC,bike_id){
+    return `
+    <tr id="bike_${bike_id}" class="racer">
+        <td scope="col" class="text-center border">
+            <input id="Year_${bike_id}" data-id="${bike_id}" style="font-size: 20px;width: 80px;" type="text" class="text-center edit" value="${Year}">
+        </td>
+        <td scope="col" class="text-center border">
+            <input id="Model_${bike_id}" data-id="${bike_id}" style="font-size: 20px;width: 150px;" type="text" class="text-center edit" value="${Model}">
+        </td>
+        <td scope="col" class="text-center border">
+            <input id="CC_${bike_id}" data-id="${bike_id}" style="font-size: 20px;width: 80px;" type="text" class="text-center edit" value="${CC}">
+        </td>
+        <td scope="col" class="text-center border">
+            <botton id="save_${bike_id}" data-id="${bike_id}" class="btn btn-secondary float-left save disabled">Save</botton>
+            <botton class="btn btn-danger delete float-right" data-id="${bike_id}">Delete</botton>
+        </td>
+    </tr>
+    `;
+}
+
+async function pageli(pos = 1,num) {
+    switch (pos) {
+        case 1:return `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>`;
+        case 2:return `<li class="page-item"><a class="page-link" href="#">${num}</a></li>`;
+        case 3:return `<li class="page-item active" aria-current="page"><a class="page-link" href="#">${num}<span class="sr-only">(current)</span></a></li>`;        
+        case 4:return `<li class="page-item"><a class="page-link" href="#">Next</a></li>`;
+        case 5:return `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>`;
+        case 6:return `<li class="page-item"><a class="page-link" href="#">Previous</a></li>`;
+    }
+    
+    
+}
+
 async function getraceroptions(racer_db){
     let html;
     for (let i = 0; i < racer_db.length; i++) {
