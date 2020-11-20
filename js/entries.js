@@ -221,7 +221,7 @@ async function refreshTableData() {
                     id: parseInt(e.target.dataset.id),
                 }
             });
-            let round = parseInt(localStorage.getItem("Round"));
+            const round = parseInt(localStorage.getItem("Round"));
             await db.remove({
                 from: "Result",
                 where: {
@@ -233,9 +233,9 @@ async function refreshTableData() {
         });
         $('.save').on('click', async function (e) {
             if ($(`#save_${e.target.dataset.id}`).prop("disabled")) return;
-            let number = $(`#number_${e.target.dataset.id}`).val();
-            let bike_id = $(`#bike_${e.target.dataset.id}`).val();
-            let racer_id = $(`#name_${e.target.dataset.id}`).val();
+            const number = $(`#number_${e.target.dataset.id}`).val();
+            const bike_id = $(`#bike_${e.target.dataset.id}`).val();
+            const racer_id = $(`#name_${e.target.dataset.id}`).val();
             await db.update({
                 in: "Entry",
                 set: {

@@ -1,5 +1,5 @@
 
-document.title += " - v1.0";
+document.title += " - v1.1";
 
 var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
@@ -34,7 +34,7 @@ function resultrow(name, id, color) {
     </div>`;
 }
 
-function tableresultrow(number = "#",name = "Uknown", bike = "Uknown",POS1 = "",PTS1 = "",POS2 = "",PTS2 = "",POS3 = "",PTS3 = "",POS4 = "",PTS4 = "",POS5 = "",PTS5 = "") {
+function tableresultrow(number = "#", name = "Uknown", bike = "Uknown", POS1 = "", PTS1 = "", POS2 = "", PTS2 = "", POS3 = "", PTS3 = "", POS4 = "", PTS4 = "", POS5 = "", PTS5 = "") {
     return `
     <tr class="border-bottom">
         <th scope="row" class="text-center">${number}</th>
@@ -194,9 +194,9 @@ async function initTables(db) {
             names[index] = names[index] + ", " + results[i].Name;
             class_ids[index] = class_ids[index] + "," + results[i].id;
         }
-        
+
     }
-    
+
 
     let groups = await db.select({
         from: "Group",
@@ -216,7 +216,7 @@ async function getTable(tbl) {
     return temp;
 }
 
-function postopoints(pos){
+function postopoints(pos) {
     switch (pos) {
         case 1: return 25;
         case 2: return 22;
@@ -238,7 +238,7 @@ function postopoints(pos){
         case 18: return 3;
         case 19: return 2;
         case 20: return 1;
-        default:return 0;
+        default: return 0;
     }
 }
 
@@ -267,140 +267,199 @@ async function loadSelect(src, origin, originvalue) {
     }
 }
 
-function entrytable(cls, cls_id, sc){
+function entrytable(cls, cls_id, sc) {
     return `
-    <h4>${cls}</h4>
-    <table class="table table-hover table-sm table-striped">
-        <thead>
-            <tr id="entry_">
-                <td scope="col" class="text-center border">
-                    <input id="number_new_${sc}" data-sc="${sc}" style="font-size: 20px;width: 100px;" placeholder="Number" type="text" class="text-center new" value="">
-                </td>
-                <td scope="col" class="text-center border">
-                    <select id="name_new_${sc}" data-sc="${sc}" class="form-control new" id="Season">
-                        <option value="0" selected disabled>Select Racer</option>
-                    </select>
-                </td>
-                <td scope="col" class="text-center border">
-                    <select id="bike_new_${sc}" data-sc="${sc}" class="form-control new" id="Season">
-                        <option value="0" selected disabled>Select Bike</option>
-                    </select>
-                </td>
-                <td scope="col" class="text-center border">
-                    <botton id="add_new" data-sc="${sc}" class="btn btn-secondary float-left new">ADD NEW</botton>
-                </td>
-            </tr>
-            <tr>
-                <th scope="col" class="text-center border-right border-left">Number</th>
-                <th scope="col" class="text-center border-right border-left">Name</th>
-                <th scope="col" class="text-center border-right border-left">Bike</th>
-                <th scope="col" class="text-center border-right border-left">Action</th>
-            </tr>
-        </thead>
-        <tbody id="class_${cls_id}">
-        </tbody>
-    </table>
+    <div class="bg-light card mb-4">
+        <div class="text-center">
+            <h2>${cls}</h2>
+        </div>
+        <table class="table table-hover table-sm mb-0">
+            <thead>
+                <tr id="entry_">
+                    <td scope="col" class="text-center border p-0 w-25">
+                        <input id="number_new_${sc}" data-sc="${sc}" style="font-size: 22px;" placeholder="Number" type="text" class="text-center new w-100" value="">
+                    </td>
+                    <td scope="col" class="text-center border p-0 w-25">
+                        <select id="name_new_${sc}" data-sc="${sc}" class="form-control new" id="Season">
+                            <option value="0" selected disabled>Select Racer</option>
+                        </select>
+                    </td>
+                    <td scope="col" class="text-center border p-0 w-25">
+                        <select id="bike_new_${sc}" data-sc="${sc}" class="form-control new" id="Season">
+                            <option value="0" selected disabled>Select Bike</option>
+                        </select>
+                    </td>
+                    <td scope="col" class="text-center border p-0 w-25">
+                        <botton id="add_new" data-sc="${sc}" class="btn btn-secondary float-left new w-100">ADD NEW</botton>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center border-right border-left">Number</th>
+                    <th scope="col" class="text-center border-right border-left">Name</th>
+                    <th scope="col" class="text-center border-right border-left">Bike</th>
+                    <th scope="col" class="text-center border-right border-left">Action</th>
+                </tr>
+            </thead>
+            <tbody id="class_${cls_id}">
+            </tbody>
+        </table>
+    </div>
     `;
 }
-async function entryrow(entry_id,number,name,bike,racer_id,bike_id,racers_db,bikes_db){
+async function entryrow(entry_id, number, name, bike, racer_id, bike_id, racers_db, bikes_db) {
     return `
     <tr id="entry_${entry_id}">
-        <td scope="col" class="text-center border">
-            <input id="number_${entry_id}" data-id="${entry_id}" style="font-size: 20px;width: 100px;" type="text" class="text-center edit" value="${number}">
+        <td scope="col" class="text-center border p-0 w-25">
+            <input id="number_${entry_id}" data-id="${entry_id}" style="font-size: 13px;" type="text" class="text-center edit w-100" value="${number}">
         </td>
-        <td scope="col" class="text-center border">
-            <select id="name_${entry_id}" data-id="${entry_id}" class="form-control edit" id="Season">
+        <td scope="col" class="text-center border p-0 w-25">
+            <select id="name_${entry_id}" data-id="${entry_id}" class="edit p-0 w-100">
                 <option value="${racer_id}" selected>${name}</option>
                 ${await getraceroptions(racers_db)}
             </select>
         </td>
-        <td scope="col" class="text-center border">
-            <select id="bike_${entry_id}" data-id="${entry_id}" class="form-control edit" id="Season">
+        <td scope="col" class="text-center border p-0 w-25">
+            <select id="bike_${entry_id}" data-id="${entry_id}" class="edit p-0 w-100">
                 <option value="${bike_id}" selected>${bike}</option>
                 ${await getbikeoptions(bikes_db)}
             </select>
         </td>
-        <td scope="col" class="text-center border">
-            <botton id="save_${entry_id}" data-id="${entry_id}" class="btn btn-secondary float-left save">Save</botton>
-            <botton class="btn btn-danger delete float-right" data-id="${entry_id}">Delete</botton>
+        <td scope="col" class="text-center border p-0 w-25 d-table-cell align-middle">
+            <botton id="save_${entry_id}" data-id="${entry_id}" class="btn btn-secondary float-left save p-0 w-50">Save</botton>
+            <botton class="btn btn-danger delete float-right w-50 p-0" data-id="${entry_id}">Delete</botton>
         </td>
     </tr>
     `;
 }
 
-async function racerrow(firstname,lastname,racer_id,entries=0,bikes=0){
+async function racerrow(firstname, lastname, racer_id, entries = 0, bikes = 0, results = 0) {
     return `
-    <tr id="${racer_id}" class="racer">
-        <td scope="col" class="text-center border p-0">
-            <input id="firstname_${racer_id}" data-id="${racer_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editr bg-transparent" value="${firstname}">
+    <tr id="${racer_id}" class="racer" data-firstname="${firstname}" data-lastname="${lastname}">
+        <td scope="col" class="text-center border p-0" style="width:30%;">
+            <input id="firstname_${racer_id}" data-id="${racer_id}" style="font-size: 15px;" type="text" class="text-center editr bg-transparent w-100" value="${firstname}">
         </td>
-        <td scope="col" class="text-center border p-0">
-            <input id="lastname_${racer_id}" data-id="${racer_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editr bg-transparent" value="${lastname}">
+        <td scope="col" class="text-center border p-0" style="width:30%;">
+            <input id="lastname_${racer_id}" data-id="${racer_id}" style="font-size: 15px;" type="text" class="text-center editr bg-transparent w-100" value="${lastname}">
         </td>
-        <td scope="col" class="text-center border p-0">
-            <botton id="save_${racer_id}" data-id="${racer_id}" class="btn btn-secondary float-left save p-0 disabled">Save</botton>
-            <botton class="btn btn-danger delete float-right p-0" data-toggle="modal" data-target="#deleteModal" data-table="Racer" data-id="${racer_id}">Delete</botton>
+        <td scope="col" class="text-center border p-0" style="width:20%;">
+            <botton id="saver_${racer_id}" data-id="${racer_id}" class="btn btn-secondary float-left saver p-0 disabled w-50">Save</botton>
+            <botton class="btn btn-danger deleter float-right p-0 w-50" data-toggle="modal" data-target="#deleteModal" data-table="Racer" data-id="${racer_id}">Delete</botton>
         </td>
-        <td scope="col" class="text-center border p-0">
-        <button type="button" class="btn btn-secondary p-0" data-toggle="tooltip" data-placement="left" title="Entries:${entries} Bikes:${bikes}">
-            E:${entries} B:${bikes}
+        <td scope="col" class="text-center border p-0" style="width:20%;">
+        <button type="button" class="btn btn-secondary p-0 w-100" data-toggle="tooltip" data-placement="left" title="Entries:${entries} Bikes:${bikes} Results:${results}">
+            E:${entries} B:${bikes} R:${results}
         </button>
         </td>
     </tr>
     `;
 }
 
-async function bikerow(Year,Model,CC,bike_id){
+async function bikerow(Year, Model, CC, bike_id) {
     return `
     <tr id="bike_${bike_id}" class="racer">
         <td scope="col" class="text-center border p-0 w-25">
-            <input id="Year_${bike_id}" data-id="${bike_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editb" value="${Year}">
+            <input id="Year_${bike_id}" data-id="${bike_id}" style="font-size: 15px;" type="text" class="text-center editb w-100" value="${Year}">
         </td>
         <td scope="col" class="text-center border p-0 w-25">
-            <input id="Model_${bike_id}" data-id="${bike_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editb" value="${Model}">
+            <input id="Model_${bike_id}" data-id="${bike_id}" style="font-size: 15px;" type="text" class="text-center editb w-100" value="${Model}">
         </td>
         <td scope="col" class="text-center border p-0 w-25">
-            <input id="CC_${bike_id}" data-id="${bike_id}" style="font-size: 15px;width: 100%;" type="text" class="text-center editb" value="${CC}">
+            <input id="CC_${bike_id}" data-id="${bike_id}" style="font-size: 15px;" type="text" class="text-center editb w-100" value="${CC}">
         </td>
         <td scope="col" class="text-center border p-0 w-25">
-        <botton id="save_${bike_id}" data-id="${bike_id}" class="btn btn-secondary float-left save disabled p-0">Save</botton>
-        <botton class="btn btn-danger delete float-right p-0" data-table="Bike" data-id="${bike_id}">Delete</botton>
+        <botton id="saveb_${bike_id}" data-id="${bike_id}" class="btn btn-secondary float-left saveb disabled p-0 w-50">Save</botton>
+        <botton class="btn btn-danger deleteb float-right p-0 w-50" data-table="Bike" data-toggle="modal" data-target="#deleteModal" data-id="${bike_id}">Delete</botton>
         </td>
     </tr>
     `;
 }
 
-async function pageli(pos = 1,num) {
-    switch (pos) {
-        case 1:return `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>`;
-        case 2:return `<li class="page-item"><a class="page-link" href="#">${num}</a></li>`;
-        case 3:return `<li class="page-item active" aria-current="page"><a class="page-link" href="#">${num}<span class="sr-only">(current)</span></a></li>`;        
-        case 4:return `<li class="page-item"><a class="page-link" href="#">Next</a></li>`;
-        case 5:return `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>`;
-        case 6:return `<li class="page-item"><a class="page-link" href="#">Previous</a></li>`;
-    }
-    
-    
+async function seasonrow(name, season_id, classes = 0, entries = 0, results = 0) {
+    return `
+    <tr id="season_${season_id}" class="season" data-name="${name}">
+        <td scope="col" class="text-center border p-0 w-50">
+            <input id="seasonname_${season_id}" data-id="${season_id}" style="font-size: 15px;" type="text" class="text-center edits bg-transparent w-100" value="${name}">
+        </td>
+        <td scope="col" class="text-center border p-0 w-25">
+            <botton id="saves_${season_id}" data-id="${season_id}" class="btn btn-secondary float-left saves p-0 disabled w-50">Save</botton>
+            <botton class="btn btn-danger deletes float-right p-0 w-50" data-toggle="modal" data-target="#deleteModal" data-table="Season" data-id="${season_id}">Delete</botton>
+        </td>
+        <td scope="col" class="text-center border p-0 w-25">
+            <button type="button" class="btn btn-secondary p-0 w-100" data-toggle="tooltip" data-placement="left" title="Classes:${classes} Entries:${entries}">
+                C:${classes} E:${entries}
+            </button>
+        </td>
+    </tr>
+    `;
 }
 
-async function getraceroptions(racer_db){
+async function classrow(name, class_id, group, entries = 0, ingroup = 0, active = "active") {
+    return `
+    <tr id="class_${class_id}" class="class" data-name="${name}">
+        <td scope="col" class="text-center border p-0 select" style="width: 5%;">
+            <button id="select_${class_id}" type="button" data-class="${class_id}" class="btn btn-outline-success w=100 season_class d-none ${active}"></button>
+        </td>
+        <td scope="col" class="text-center border p-0" style="width: 35%;">
+            <input id="classname_${class_id}" data-id="${class_id}" style="font-size: 14px;" type="text" class="text-center editc bg-transparent w-100" value="${name}">
+        </td>
+        <td scope="col" class="text-center border p-0 d-table-cell align-middle" style="width: 10%;">
+            <select id="classgroup_${class_id}" data-id="${class_id}" class="editc w-100">
+                ${getgroups(group)}
+            </select>
+        </td>
+        <td scope="col" class="text-center border p-0" style="width: 25%;">
+            <botton id="savec_${class_id}" data-id="${class_id}" class="btn btn-secondary float-left savec p-0 disabled w-50">Save</botton>
+            <botton class="btn btn-danger deletec float-right p-0 w-50" data-toggle="modal" data-target="#deleteModal" data-table="Class" data-id="${class_id}">Delete</botton>
+        </td>
+        <td scope="col" class="text-center border p-0" style="width: 25%;">
+            <button type="button" class="btn btn-secondary p-0 w-100" data-toggle="tooltip" data-placement="left" title="Entries:${entries} Classes in Group:${ingroup}">
+                E:${entries} G:${ingroup}
+            </button>
+        </td>
+    </tr>
+    `;
+}
+
+function getgroups(selected = 0) {
+    let html = '';
+    for (let i = 0; i <= 20; i++) {
+        const sel = selected == i ? "selected" : "";
+        html += `<option value="${i}" ${sel}>${i}</option>`;
+    }
+    return html;
+}
+
+async function pageli(pos = 1, num) {
+    switch (pos) {
+        case 1: return `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>`;
+        case 2: return `<li class="page-item"><a class="page-link" href="#">${num}</a></li>`;
+        case 3: return `<li class="page-item active" aria-current="page"><a class="page-link" href="#">${num}<span class="sr-only">(current)</span></a></li>`;
+        case 4: return `<li class="page-item"><a class="page-link" href="#">Next</a></li>`;
+        case 5: return `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>`;
+        case 6: return `<li class="page-item"><a class="page-link" href="#">Previous</a></li>`;
+    }
+
+
+}
+
+async function getraceroptions(racer_db) {
     let html;
     for (let i = 0; i < racer_db.length; i++) {
-        html += await option(racer_db[i].id,`${racer_db[i].FirstName} ${racer_db[i].LastName}`);
+        html += await option(racer_db[i].id, `${racer_db[i].FirstName} ${racer_db[i].LastName}`);
     }
     return html;
 }
 
-async function getbikeoptions(bike_db){
+async function getbikeoptions(bike_db) {
     let html;
     for (let i = 0; i < bike_db.length; i++) {
-        html += await option(bike_db[i].id,`${bike_db[i].Year>0?bike_db[i].Year:""} ${bike_db[0].Model} ${bike_db[0].CC>0?bike_db[i].CC:""}`);
+        html += await option(bike_db[i].id, `${bike_db[i].Year > 0 ? bike_db[i].Year : ""} ${bike_db[0].Model} ${bike_db[0].CC > 0 ? bike_db[i].CC : ""}`);
     }
     return html;
 }
 
-async function option(id,name){
-return `<option value="${id}">${name}</option>`;
+async function option(id, name) {
+    return `<option value="${id}">${name}</option>`;
 }
 
 function progressbar(id) {
@@ -418,7 +477,330 @@ function progressbar(id) {
     return html;
 };
 
+async function confirmDelete(id, table) {
+    $(".modal-body").html("");
+    $("#deleteModalLabel").text(`Delete ${table}`)
+    $("#delete").data("id", id)
+    $("#delete").data("table", table)
+    if (table == "Racer") {
+        const racer = await db.select({
+            from: "Racer",
+            where: {
+                id: id
+            }
+        })
+        $(".modal-body").append(`<p>${racer[0].FirstName} ${racer[0].LastName}</p>`);
+        const delete_bikes = await db.count({
+            from: "Bike",
+            where: {
+                Racer_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Bikes to be deleted: ${delete_bikes}</p>`);
+        const delete_entries = await db.select({
+            from: "Entry",
+            where: {
+                Racer_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Entries to be deleted: ${delete_entries.length}</p>`);
+        let count_results = 0;
+        for (let e = 0; e < delete_entries.length; e++) {
+            const delete_results = await db.count({
+                from: "Result",
+                where: {
+                    Entry_id: delete_entries[e].id
+                }
+            })
+            count_results += delete_results
+        }
+        $(".modal-body").append(`<p>Results to be deleted: ${count_results}</p>`);
+    } else if (table == "Bike") {
+        const bike = await db.select({
+            from: "Bike",
+            where: {
+                id: id
+            }
+        })
+        $(".modal-body").html(`<p>${bike[0].Year} ${bike[0].Model} ${bike[0].CC}</p>`);
+        const delete_entries = await db.select({
+            from: "Entry",
+            where: {
+                Bike_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Entries to be deleted: ${delete_entries.length}</p>`);
+        let count_results = 0;
+        for (let e = 0; e < delete_entries.length; e++) {
+            const delete_results = await db.count({
+                from: "Result",
+                where: {
+                    Entry_id: delete_entries[e].id
+                }
+            })
+            count_results += delete_results
+        }
+        $(".modal-body").append(`<p>Results to be deleted: ${count_results}</p>`);
+    } else if (table == "Season") {
+        const season = await db.select({
+            from: "Season",
+            where: {
+                id: id
+            }
+        })
+        $(".modal-body").html(`<p>${season[0].Name}</p>`);
+        const rounds = await db.select({
+            from: "Round",
+            where: {
+                Season_id: id
+            }
+        })
+        let Lap_Race_count = 0;
+        for (let r = 0; r < rounds.length; r++) {
+            const Lap_Race = await db.select({
+                from: "Lap_Race",
+                where: {
+                    Round_id: rounds[r].id
+                }
+            })
+            Lap_Race_count += Lap_Race.length
+        }
+        $(".modal-body").append(`<p>Rounds to be deleted: ${rounds.length}</p>`);
+        $(".modal-body").append(`<p>Lap_Race to be deleted: ${Lap_Race_count}</p>`);
+        const season_class = await db.select({
+            from: "Season_Class",
+            where: {
+                Season_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Season_Class to be deleted: ${season_class.length}</p>`);
+        let entries_count = 0;
+        let results_count = 0;
+        for (let sc = 0; sc < season_class.length; sc++) {
+            const entries = await db.select({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[sc].id
+                }
+            })
+            entries_count += entries.length;
+            for (let e = 0; e < entries.length; e++) {
+                const results = await db.select({
+                    from: "Result",
+                    where: {
+                        Entry_id: entries[e].id
+                    }
+                })
+                results_count += results.length;
+            }
+        }
+        $(".modal-body").append(`<p>Entries to be deleted: ${entries_count}</p>`);
+        $(".modal-body").append(`<p>Results to be deleted: ${results_count}</p>`);
+    } else if (table == "Class") {
+        const cls = await db.select({
+            from: "Class",
+            where: {
+                id: id
+            }
+        })
+        $(".modal-body").html(`<p>${cls[0].Name}</p>`);
+        const season_class = await db.select({
+            from: "Season_Class",
+            where: {
+                Class_id: id
+            }
+        })
+        $(".modal-body").append(`<p>Season_Class to be deleted: ${season_class.length}</p>`);
+        let entries_count = 0;
+        let results_count = 0;
+        for (let sc = 0; sc < season_class.length; sc++) {
+            const entries = await db.select({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[sc].id
+                }
+            })
+            entries_count += entries.length;
+            for (let e = 0; e < entries.length; e++) {
+                const results = await db.select({
+                    from: "Result",
+                    where: {
+                        Entry_id: entries[e].id
+                    }
+                })
+                results_count += results.length;
+            }
+        }
+        $(".modal-body").append(`<p>Entries to be deleted: ${entries_count}</p>`);
+        $(".modal-body").append(`<p>Results to be deleted: ${results_count}</p>`);
+    }
+}
 
+async function deleterecords(id, table) {
+    if (table == "Racer") {
+        await db.remove({
+            from: "Racer",
+            where: {
+                id: id
+            }
+        })
+        await db.remove({
+            from: "Bike",
+            where: {
+                Racer_id: id
+            }
+        })
+        const delete_entries = await db.select({
+            from: "Entry",
+            where: {
+                Racer_id: id
+            }
+        })
+        await db.remove({
+            from: "Entry",
+            where: {
+                Racer_id: id
+            }
+        })
+        for (let e = 0; e < delete_entries.length; e++) {
+            await db.remove({
+                from: "Result",
+                where: {
+                    Entry_id: delete_entries[e].id
+                }
+            })
+        }
+    } else if (table == "Bike") {
+        await db.remove({
+            from: "Bike",
+            where: {
+                id: id
+            }
+        })
+        const delete_entries = await db.select({
+            from: "Entry",
+            where: {
+                Bike_id: id
+            }
+        })
+        await db.remove({
+            from: "Entry",
+            where: {
+                Bike_id: id
+            }
+        })
+        for (let e = 0; e < delete_entries.length; e++) {
+            await db.remove({
+                from: "Result",
+                where: {
+                    Entry_id: delete_entries[e].id
+                }
+            })
+        }
+    } else if (table == "Season") {
+        await db.remove({
+            from: "Season",
+            where: {
+                id: id
+            }
+        })
+        const rounds = await db.select({
+            from: "Round",
+            where: {
+                Season_id: id
+            }
+        })
+        await db.remove({
+            from: "Round",
+            where: {
+                Season_id: id
+            }
+        })
+        for (let r = 0; r < rounds.length; r++) {
+            await db.remove({
+                from: "Lap_Race",
+                where: {
+                    Round_id: rounds[r].id
+                }
+            })
+        }
+        const season_class = await db.select({
+            from: "Season_Class",
+            where: {
+                Season_id: id
+            }
+        })
+        await db.remove({
+            from: "Season_Class",
+            where: {
+                Season_id: id
+            }
+        })
+        for (let sc = 0; sc < season_class.length; sc++) {
+            const entries = await db.select({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[sc].id
+                }
+            })
+            await db.remove({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[sc].id
+                }
+            })
+            for (let e = 0; e < entries.length; e++) {
+                await db.remove({
+                    from: "Result",
+                    where: {
+                        Entry_id: entries[e].id
+                    }
+                })
+            }
+        }
+    } else if (table = "Class"){
+        const cls = await db.remove({
+            from: "Class",
+            where: {
+                id: id
+            }
+        })
+        const season_class = await db.select({
+            from: "Season_Class",
+            where: {
+                Class_id: id
+            }
+        })
+        await db.remove({
+            from: "Season_Class",
+            where: {
+                Class_id: id
+            }
+        })
+        for (let sc = 0; sc < season_class.length; sc++) {
+            const entries = await db.select({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[sc].id
+                }
+            })
+            await db.remove({
+                from: "Entry",
+                where: {
+                    Season_Class_id: season_class[sc].id
+                }
+            })
+            for (let e = 0; e < entries.length; e++) {
+                await db.remove({
+                    from: "Result",
+                    where: {
+                        Entry_id: entries[e].id
+                    }
+                })
+            }
+        }
+    }
+}
 
 
 

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <a class="navbar-brand" href="#">The Finish Line - Racers</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,14 +46,14 @@
                         <tr>
                             <td scope="col" class="text-center border p-0">
                                 <input id="FirstName" style="font-size: 15px;width: 100%;" autocomplete="off"
-                                    placeholder="First Name" type="text" class="text-center new" value="">
+                                    placeholder="First Name" type="text" class="text-center newracer" value="">
                             </td>
                             <td scope="col" class="text-center border p-0">
                                 <input id="LastName" style="font-size: 15px;width: 100%;" autocomplete="off"
-                                    placeholder="Last Name" type="text" class="text-center new" value="">
+                                    placeholder="Last Name" type="text" class="text-center newracer" value="">
                             </td>
                             <td scope="col" colspan="2" class="text-center border p-0">
-                                <botton id="add_new" data-sc="${sc}" class="btn btn-secondary new disabled pt-0 pb-0">+
+                                <botton id="add_new_racer" data-sc="${sc}" class="w-100 btn btn-secondary newracer disabled pt-0 pb-0">Add New
                                 </botton>
                             </td>
                         </tr>
@@ -65,7 +65,6 @@
                         </tr>
                     </thead>
                     <tbody id="racers_body">
-
                     </tbody>
                     <tfoot>
                         <tr>
@@ -80,29 +79,32 @@
             </div>
             <div class="col-5">
                 <div class="row">
-                    <table id="bikes" class="table table-hover table-sm">
+                    <table id="bikes" class="table table-hover table-sm mr-3">
                         <thead>
                             <tr>
                                 <th scope="col" colspan="4" class="text-center border">
-                                    Bikes
+                                    Bikes<span id="bikefor"></span>
                                 </th>
                             </tr>
                             <tr>
                                 <td scope="col" class="text-center border p-0 w-25">
-                                    <input id="year" style="font-size: 15px;width: 100%;" autocomplete="off"
-                                        placeholder="Year" type="text" class="text-center new" value="">
+                                    <input id="Year" style="font-size: 15px;width: 100%;" autocomplete="off"
+                                        placeholder="Year" type="text" class="text-center newbike" value=""
+                                        data-toggle="tooltip" data-placement="top" title="Numbers only">
                                 </td>
                                 <td scope="col" class="text-center border p-0 w-25">
-                                    <input id="model" style="font-size: 15px;width: 100%;" autocomplete="off"
-                                        placeholder="Model" type="text" class="text-center new" value="">
+                                    <input id="Model" style="font-size: 15px;width: 100%;" autocomplete="off"
+                                        placeholder="Model" type="text" class="text-center newbike" value=""
+                                        data-toggle="tooltip" data-placement="top" title="Required">
                                 </td>
                                 <td scope="col" class="text-center border p-0 w-25">
-                                    <input id="cc" style="font-size: 15px;width: 100%;" autocomplete="off"
-                                        placeholder="CC" type="text" class="text-center new" value="">
+                                    <input id="CC" style="font-size: 15px;width: 100%;" autocomplete="off"
+                                        placeholder="CC" type="text" class="text-center newbike" value=""
+                                        data-toggle="tooltip" data-placement="top" title="Numbers only">
                                 </td>
                                 <td scope="col" class="text-center border p-0 w-25">
-                                    <botton id="add_new" data-sc="${sc}"
-                                        class="btn btn-secondary new disabled pt-0 pb-0">+</botton>
+                                    <botton id="add_new_bike" data-sc="${sc}"
+                                        class="w-100 btn btn-secondary newbike disabled pt-0 pb-0">Add New</botton>
                                 </td>
                             </tr>
                             <tr>

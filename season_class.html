@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <a class="navbar-brand" href="#">The Finish Line - Season/Class</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,127 @@
             </div>
         </div>
     </nav>
-    <h1>Under construction</h1>
+    <div class="p-3">
+        <div class="row">
+            <div class="col-5">
+                <table id="seasons" class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="4" class="text-center border">
+                                Seasons
+                            </th>
+                        </tr>
+                        <tr>
+                            <td scope="col" class="text-center border p-0">
+                                <input id="SeasonName" style="font-size: 15px;" autocomplete="off"
+                                placeholder="Name" type="text" class="text-center w-100" value=""
+                                data-toggle="tooltip" data-placement="top" title="Required">
+                            </td>
+                            <td scope="col" colspan="2" class="text-center border p-0">
+                                <botton id="add_new_season" class="w-100 btn btn-secondary disabled pt-0 pb-0">Add New
+                                </botton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col" class="text-center border-right border-left sort w-50">Name</th>
+                            <th scope="col" class="text-center border-right border-left w-25">Action</th>
+                            <th scope="col" class="text-center border-right border-left w-25">Info</th>
+                        </tr>
+                    </thead>
+                    <tbody id="seasons_body">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                <ul id="paginate" class="pagination justify-content-center">
+
+                                </ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-7">
+                <div class="row">
+                    <table id="classes" class="table table-hover table-sm mr-3">
+                        <thead>
+                            <tr>
+                                <th scope="col" colspan="5" class="text-center border">
+                                    Classes
+                                </th>
+                            </tr>
+                            <tr>
+                                <td scope="col" colspan="2" class="text-center border p-0">
+                                    <input id="ClassName" style="font-size: 14px;" autocomplete="off"
+                                        placeholder="Name" type="text" class="text-center newclass w-100" value=""
+                                        data-toggle="tooltip" data-placement="top" title="Required">
+                                </td>
+                                <td scope="col" colspan="2" class="text-center border p-0 d-table-cell align-middle">
+                                    <select id="GroupNumber" class="newclass w-100">
+                                        <option value="0" selected disabled>Group number</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                </td>
+                                <td scope="col" class="text-center border p-0">
+                                    <botton id="add_new_class"
+                                        class="w-100 btn btn-secondary newclass disabled pt-0 pb-0">Add New</botton>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="text-center border-right border-left">Select</th>
+                                <th scope="col" class="text-center border-right border-left">Name</th>
+                                <th scope="col" class="text-center border-right border-left">Group</th>
+                                <th scope="col" class="text-center border-right border-left">Action</th>
+                                <th scope="col" class="text-center border-right border-left">Info</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classes_body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">DELETE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="./js/jquery-3.5.1.min.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
@@ -41,6 +161,6 @@
     <script src="./js/xlsx.core.min.js"></script>
     <script src="./js/db.js"></script>
     <script src="./js/helper.js"></script>
-    <script src="./js/index.js"></script>
+    <script src="./js/season_class.js"></script>
 </body>
 </html>

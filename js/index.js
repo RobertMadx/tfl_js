@@ -436,11 +436,13 @@ function registerEvents() {
             let id = $('#disp').data('identity');
             let group = parseInt($('#Group').val());
             let race = parseInt($('#Race').val());
+            let round = parseInt($('#Round').val());
             const results = await db.select({
                 from: "Lap_Race",
                 where: {
                     Group_id: group,
-                    Race_id: race
+                    Race_id: race,
+                    Round_id: round,
                 },
             });
             for (let i = 0; i < results.length; i++) {
@@ -465,11 +467,13 @@ function registerEvents() {
             let id = $('#disp').data('identity');
             let group = parseInt($('#Group').val());
             let race = parseInt($('#Race').val());
+            let round = parseInt($('#Round').val());
             const results = await db.select({
                 from: "Lap_Race",
                 where: {
                     Group_id: group,
-                    Race_id: race
+                    Race_id: race,
+                    Round_id: round,
                 },
             });
             for (let i = 0; i < results.length; i++) {
@@ -535,6 +539,7 @@ function registerEvents() {
 async function Process_number() {
     let num = $('#Number_input').val().toUpperCase();
     let group = parseInt($('#Group').val());
+    let round = parseInt($('#Round').val());
     let race = parseInt($('#Race').val());
     if (group && race && num != "") {
         $('#Number_input').val("");
@@ -542,6 +547,7 @@ async function Process_number() {
             Number: num,
             Group_id: group,
             Race_id: race,
+            Round_id: round,
         };
         try {
             var noOfDataInserted = await db.insert({
@@ -573,6 +579,7 @@ async function clear_laps() {
 async function clear_all() {
     $("#racercard").addClass("d-none");
     let group = parseInt($('#Group').val());
+    let round = parseInt($('#Round').val());
     let race = parseInt($('#Race').val());
     if (group && race) {
         try {
@@ -581,6 +588,7 @@ async function clear_all() {
                 where: {
                     Group_id: group,
                     Race_id: race,
+                    Round_id: round
                 },
             });
             refreshTableData();

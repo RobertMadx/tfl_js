@@ -1,5 +1,5 @@
 var APP_PREFIX = 'TheFinishLine_'     // Identifier for this app (this needs to be consistent across every cache update)
-var VERSION = 'version_10'              // Version of the off-line cache (change this value everytime you want to update cache)
+var VERSION = 'version_11'              // Version of the off-line cache (change this value everytime you want to update cache)
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [                            // Add URL you want to cache in this list.
     '/tfl_js/',                     // If you have separate JS/CSS files,
@@ -22,6 +22,7 @@ var URLS = [                            // Add URL you want to cache in this lis
     '/tfl_js/js/db.js',
     '/tfl_js/js/entries.js',
     '/tfl_js/js/racers.js',
+    '/tfl_js/js/season_class.js',
     '/tfl_js/favicon.ico',
     '/tfl_js/img/icons/icon-72x72.png',
     '/tfl_js/img/icons/icon-96x96.png',
