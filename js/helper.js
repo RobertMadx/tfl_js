@@ -1,5 +1,5 @@
 
-document.title += " - v1.1";
+document.title += " - v1.3";
 
 var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 
@@ -207,7 +207,6 @@ async function initTables(db) {
             insertdb('Group', { Name: names[i], Classes: class_ids[i] })
         }
     }
-    loadAllSelect();
 }
 async function getTable(tbl) {
     const temp = await db.select({
@@ -326,7 +325,7 @@ async function entryrow(entry_id, number, name, bike, racer_id, bike_id, racers_
         </td>
         <td scope="col" class="text-center border p-0 w-25 d-table-cell align-middle">
             <botton id="save_${entry_id}" data-id="${entry_id}" class="btn btn-secondary float-left save p-0 w-50">Save</botton>
-            <botton class="btn btn-danger delete float-right w-50 p-0" data-id="${entry_id}">Delete</botton>
+            <botton class="btn btn-danger delete float-right w-50 p-0" data-toggle="modal" data-target="#deleteModal" data-table="Entry" data-id="${entry_id}">Delete</botton>
         </td>
     </tr>
     `;
@@ -633,13 +632,28 @@ async function confirmDelete(id, table) {
         }
         $(".modal-body").append(`<p>Entries to be deleted: ${entries_count}</p>`);
         $(".modal-body").append(`<p>Results to be deleted: ${results_count}</p>`);
+    } else if (table == "Entry") {
+        const entry = await db.select({
+            from: "Entry",
+            where: {
+                id: id
+            }
+        })
+        $(".modal-body").html(`<p>${entry[0].Number}</p>`);
+        const results = await db.count({
+            from: "Result",
+            where: {
+                Entry_id: entry[0].id
+            }
+        })
+        $(".modal-body").append(`<p>Results to be deleted: ${results}</p>`);
     }
 }
 
 async function deleterecords(id, table) {
     if (table == "Racer") {
         await db.remove({
-            from: "Racer",
+            from: table,
             where: {
                 id: id
             }
@@ -672,7 +686,7 @@ async function deleterecords(id, table) {
         }
     } else if (table == "Bike") {
         await db.remove({
-            from: "Bike",
+            from: table,
             where: {
                 id: id
             }
@@ -699,7 +713,7 @@ async function deleterecords(id, table) {
         }
     } else if (table == "Season") {
         await db.remove({
-            from: "Season",
+            from: table,
             where: {
                 id: id
             }
@@ -758,9 +772,9 @@ async function deleterecords(id, table) {
                 })
             }
         }
-    } else if (table = "Class"){
+    } else if (table == "Class"){
         const cls = await db.remove({
-            from: "Class",
+            from: table,
             where: {
                 id: id
             }
@@ -799,6 +813,20 @@ async function deleterecords(id, table) {
                 })
             }
         }
+    } else if (table == "Entry") {
+        
+        await db.remove({
+            from: "Entry",
+            where: {
+                id: id
+            }
+        })
+        await db.remove({
+            from: "Result",
+            where: {
+                Entry_id: id
+            }
+        })
     }
 }
 

@@ -7,7 +7,7 @@ var racers;
 var selected = 0;
 
 window.onload = async function () {
-    initDb();
+    await initDb();
     await loadracers();
     refreshTableData();
     registerEvents();

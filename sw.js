@@ -1,5 +1,5 @@
 var APP_PREFIX = 'TheFinishLine_'     // Identifier for this app (this needs to be consistent across every cache update)
-var VERSION = 'version_11'              // Version of the off-line cache (change this value everytime you want to update cache)
+var VERSION = 'version_13'              // Version of the off-line cache (change this value everytime you want to update cache)
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [                            // Add URL you want to cache in this list.
     '/tfl_js/',                     // If you have separate JS/CSS files,
@@ -14,7 +14,6 @@ var URLS = [                            // Add URL you want to cache in this lis
     '/tfl_js/js/database.js',
     '/tfl_js/js/helper.js',
     '/tfl_js/js/jquery-3.5.1.min.js',
-    '/tfl_js/css/style.css',
     '/tfl_js/css/bootstrap.min.css',
     '/tfl_js/css/bootstrap.min.css.map',
     '/tfl_js/manifest.json',

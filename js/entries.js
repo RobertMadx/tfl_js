@@ -1,5 +1,5 @@
-window.onload = function () {
-    initDb();
+window.onload = async function () {
+    await initDb();
     loadAllSelect();
     refreshTableData();
     registerEvents();
@@ -23,7 +23,12 @@ function registerEvents() {
         refreshTableData();
     });
 
-
+    $('#delete').on('click', async function (e) {
+        const id = await $(this).data("id")
+        const table = await $(this).data("table")
+        await deleterecords(id, table)
+        refreshTableData();
+    })
 
 }
 
@@ -215,22 +220,11 @@ async function refreshTableData() {
             }
         })
         $('.delete').on('click', async function (e) {
-            await db.remove({
-                from: "Entry",
-                where: {
-                    id: parseInt(e.target.dataset.id),
-                }
-            });
-            const round = parseInt(localStorage.getItem("Round"));
-            await db.remove({
-                from: "Result",
-                where: {
-                    Entry_id: parseInt(e.target.dataset.id),
-                    Round_id: round
-                }
-            });
-            $(`#entry_${e.target.dataset.id}`).remove();
+            let id = parseInt($(this).data("id"))
+            let table = $(this).data("table")
+            confirmDelete(id, table)
         });
+
         $('.save').on('click', async function (e) {
             if ($(`#save_${e.target.dataset.id}`).prop("disabled")) return;
             const number = $(`#number_${e.target.dataset.id}`).val();

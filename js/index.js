@@ -1,5 +1,5 @@
-window.onload = function () {
-    initDb();
+window.onload = async function () {
+    await initDb();
     loadAllSelect();
     refreshTableData();
     registerEvents();
@@ -302,11 +302,16 @@ async function refreshTableData(selected = "") {
 
 
 function registerEvents() {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
     $("#browse").click(function () {
         $("#fileUpload").click();
     });
     $("#Save").click(async function () {
         let classes_id = [];
+        //let classes = [];
+        //let class_result = [];
         let race = parseInt(localStorage.getItem("Race"));
         let round = parseInt(localStorage.getItem("Round"));
         let group = parseInt(localStorage.getItem("Group"));
@@ -318,8 +323,9 @@ function registerEvents() {
             },
         });
         classes_id = await (group_db[0].Classes).split(",")
+        //classes = await (group_db[0].Name).split(",")
         for (let c = 0; c < classes_id.length; c++) {
-
+            //class_result.push([]);
             const season_class = await db.select({
                 from: "Season_Class",
                 where: {
@@ -369,7 +375,7 @@ function registerEvents() {
                 i++;
             }
         }
-        console.log("Done")
+        $('#resultsModal').modal('show')
     });
     $('#Number_input').on('keypress', function (e) {
         if (e.key == 'Enter') {

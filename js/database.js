@@ -1,6 +1,6 @@
 var textFields = ['Number', 'FirstName', 'LastName', 'Model', 'Classes', 'Name']
-window.onload = function () {
-    initDb();
+window.onload = async function () {
+    await initDb();
     registerEvents();
 };
 

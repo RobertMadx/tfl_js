@@ -1,7 +1,7 @@
 let selected = 0;
 
 window.onload = async function () {
-    initDb();
+    await initDb();
     //await loadseasons();
     //await loadclasses();
     refreshTableDataSeasons();

@@ -1,5 +1,5 @@
 window.onload = async function () {
-    initDb();
+    await initDb();
     await loadAllSelect();
     registerEvents();
     refreshTableData();
