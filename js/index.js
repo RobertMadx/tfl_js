@@ -34,6 +34,7 @@ async function refreshTableData(selected = "") {
     let classes = [];
     let classes_id = [];
     let numbers = [];
+    let numbers_all = [];
     let laps_done = [];
     let last_lap = [];
     let entries = [];
@@ -126,6 +127,7 @@ async function refreshTableData(selected = "") {
 
         var lap = 1;
         for (let i = 0; i < results.length; i++) {
+            numbers_all.push(results[i].Number);
             var index = numbers.indexOf(results[i].Number);
             if (index == -1) {
                 numbers.push(results[i].Number)
@@ -195,11 +197,11 @@ async function refreshTableData(selected = "") {
         let lap_count = [];
         for (let i = 0; i < last_numbers.length; i++) {
             let laps = 0;
-            $('.entry').each(function () {
-                if ($(this).html() == last_numbers[i]) {
+            for (let x = 0; x < numbers_all.length; x++) {
+                if (numbers_all[x] == last_numbers[i]) {
                     laps++;
                 }
-            });
+            }
             lap_count.push(laps);
             let found = false;
             let cl = 0;
