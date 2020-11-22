@@ -61,7 +61,7 @@ self.addEventListener('fetch', function (e) {
 self.addEventListener('install', function (e) {
     e.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
-            // console.log('installing cache : ' + CACHE_NAME)
+            console.log('installing cache : ' + CACHE_NAME)
             return cache.addAll(URLS)
         })
     )
@@ -78,10 +78,12 @@ self.addEventListener('activate', function (e) {
             })
             // add current cache name to white list
             cacheWhitelist.push(CACHE_NAME)
+            console.log(`new cache added: ${CACHE_NAME}`)
 
             return Promise.all(keyList.map(function (key, i) {
                 if (cacheWhitelist.indexOf(key) === -1) {
-                    // console.log('deleting cache : ' + keyList[i])
+                    console.log('deleting cache : ' + keyList[i])
+                    alert(`New ${VERSION} is available. Please restart browser to load`)
                     return caches.delete(keyList[i])
                 }
             }))
