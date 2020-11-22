@@ -289,7 +289,7 @@ function entrytable(cls, cls_id, sc) {
                         </select>
                     </td>
                     <td scope="col" class="text-center border p-0 w-25">
-                        <botton id="add_new" data-sc="${sc}" class="btn btn-secondary float-left new w-100">ADD NEW</botton>
+                        <botton id="add_new_${sc}" data-sc="${sc}" class="btn btn-secondary float-left new w-100 add_new">ADD NEW</botton>
                     </td>
                 </tr>
                 <tr>

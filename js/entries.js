@@ -180,21 +180,21 @@ async function refreshTableData() {
                     },
                 })
                 if (entry_check.length == 0) {
-                    $(`#add_new`).removeClass("btn-secondary");
-                    $(`#add_new`).addClass("btn-success");
-                    $(`#add_new`).prop("disabled", false);
+                    $(`#add_new_${e.target.dataset.sc}`).removeClass("btn-secondary");
+                    $(`#add_new_${e.target.dataset.sc}`).addClass("btn-success");
+                    $(`#add_new_${e.target.dataset.sc}`).prop("disabled", false);
                 } else {
-                    $(`#add_new`).addClass("btn-secondary");
-                    $(`#add_new`).removeClass("btn-success");
-                    $(`#add_new`).prop("disabled", true);
+                    $(`#add_new_${e.target.dataset.sc}`).addClass("btn-secondary");
+                    $(`#add_new_${e.target.dataset.sc}`).removeClass("btn-success");
+                    $(`#add_new_${e.target.dataset.sc}`).prop("disabled", true);
                 }
             } else {
-                $(`#add_new`).addClass("btn-secondary");
-                $(`#add_new`).removeClass("btn-success");
-                $(`#add_new`).prop("disabled", true);
+                $(`#add_new_${e.target.dataset.sc}`).addClass("btn-secondary");
+                $(`#add_new_${e.target.dataset.sc}`).removeClass("btn-success");
+                $(`#add_new_${e.target.dataset.sc}`).prop("disabled", true);
             }
         });
-        $('#add_new').on('click', async function (e) {
+        $('.add_new').on('click', async function (e) {
             let number = $(`#number_new_${e.target.dataset.sc}`).val();
             let bike_id = parseInt($(`#bike_new_${e.target.dataset.sc}`).val());
             let racer_id = parseInt($(`#name_new_${e.target.dataset.sc}`).val());
