@@ -190,6 +190,7 @@ async function refreshTableData() {
 }
 
 function registerEvents() {
+    $(`#version`).html(version);
     $('#download').on('click',function (e) {
         let round = $(`#Round`).find(":selected").text();
         let season = $(`#Season`).find(":selected").text();

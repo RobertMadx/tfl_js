@@ -5,6 +5,7 @@ window.onload = async function () {
 };
 
 function registerEvents() {
+    $(`#version`).html(version);
     $("#browse").click(function () {
         $("#fileUpload").click();
     });

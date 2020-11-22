@@ -14,6 +14,7 @@ window.onload = async function () {
 };
 
 async function registerEvents() {
+    $(`#version`).html(version);
     $('select').on('change', async function (e) {
         await loadracers();
         refreshTableData();

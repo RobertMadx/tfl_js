@@ -10,6 +10,7 @@ window.onload = async function () {
 };
 
 async function registerEvents() {
+    $(`#version`).html(version);
     $('#delete').on('click', async function (e) {
         const id = await $(this).data("id")
         const table = await $(this).data("table")

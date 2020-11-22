@@ -12,6 +12,7 @@ async function loadAllSelect() {
 }
 
 function registerEvents() {
+    $(`#version`).html(version);
     $('select').on('change', async function (e) {
         localStorage.setItem(this.id, this.value);
         if (this.id == "Season") {

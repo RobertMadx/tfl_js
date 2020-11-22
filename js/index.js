@@ -302,6 +302,7 @@ async function refreshTableData(selected = "") {
 
 
 function registerEvents() {
+    $(`#version`).html(version);
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
