@@ -1,5 +1,5 @@
 
-var version = "v1.6";
+var version = "v1.7";
 
 var db = new JsStore.Connection(new Worker("./js/jsstore.worker.min.js"));
 

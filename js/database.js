@@ -39,86 +39,38 @@ async function ProcessExcel(data) {
         if (json_object.length < 1) {
             $(`#${sheetName}_bar`).remove()
         }
+        console.log(sheetName,json_object)
+        if(json_object){
 
-        for (let i = 1; i <= json_object.length; i++) {
-            let per = Math.round((i / json_object.length) * 100);
-
-            $(`#${sheetName}`).css('width', `${per}%`)
-            $(`#${sheetName}`).html(`${per}%`)
-
-            if (per == 100) {
-                $(`#${sheetName}_bar`).remove()
-            }
-
-            let entry = {};
-            if (typeof json_object[i] != 'undefined') {
-
-                for (let j = 0; j < json_object[i].length; j++) {
-                    let key = json_object[0][j];
-                    let value = json_object[i][j];
-
-                    if (textFields.includes(key)) {
-                        value = json_object[i][j].replace('"', "").replace('"', "");
-                    } else {
-                        value = json_object[i][j];
-                    }
-                    Object.assign(entry, { [key]: value })
+            for (let i = 1; i <= json_object.length; i++) {
+                let per = Math.round((i / json_object.length) * 100);
+    
+                $(`#${sheetName}`).css('width', `${per}%`)
+                $(`#${sheetName}`).html(`${per}%`)
+    
+                if (per == 100) {
+                    $(`#${sheetName}_bar`).remove()
                 }
-                await insertdb(sheetName, entry)
-            }
-        }
-    })
-};
-
-async function ProcessExcel(data) {
-    //Read the Excel File data.
-    var workbook = XLSX.read(data, {
-        type: 'binary'
-    });
-    $("#bars").html("");
-    workbook.SheetNames.forEach(async function (sheetName) {
-        $("#bars").append(progressbar(sheetName));
-    })
-    workbook.SheetNames.forEach(async function (sheetName) {
-
-        // Here is your object
-        var json_object = await XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
-
-
-        await db.remove({
-            from: sheetName,
-        });
-        if (json_object.length < 1) {
-            $(`#${sheetName}_bar`).remove()
-        }
-
-        for (let i = 1; i <= json_object.length; i++) {
-            let per = Math.round((i / json_object.length) * 100);
-
-            $(`#${sheetName}`).css('width', `${per}%`)
-            $(`#${sheetName}`).html(`${per}%`)
-
-            if (per == 100) {
-                $(`#${sheetName}_bar`).remove()
-            }
-
-            let entry = {};
-            if (typeof json_object[i] != 'undefined') {
-
-                for (let j = 0; j < json_object[i].length; j++) {
-                    let key = json_object[0][j];
-                    let value = json_object[i][j];
-
-                    if (textFields.includes(key)) {
-                        value = json_object[i][j].replace('"', "").replace('"', "");
-                    } else {
-                        value = json_object[i][j];
+    
+                let entry = {};
+                if (typeof json_object[i] != 'undefined') {
+    
+                    for (let j = 0; j < json_object[i].length; j++) {
+                        let key = json_object[0][j];
+                        let value = json_object[i][j];
+    
+                        if (textFields.includes(key)) {
+                            value = json_object[i][j].replace('"', "").replace('"', "");
+                        } else {
+                            value = json_object[i][j];
+                        }
+                        Object.assign(entry, { [key]: value })
                     }
-                    Object.assign(entry, { [key]: value })
+                    await insertdb(sheetName, entry)
                 }
-                await insertdb(sheetName, entry)
             }
         }
+        recreategroup()
     })
 };
 
@@ -263,3 +215,32 @@ async function DownloadDatabase() {
 }
 
 
+async function recreategroup(){
+    await db.remove({
+        from: "Group",
+    })
+    const cls = await db.select({
+        from: "Class",
+    })
+    let grpnum = [];
+    let grpname = [];
+    let grpids = [];
+    for (let c = 0; c < cls.length; c++) {
+        let index = grpnum.indexOf(cls[c].Group_id)
+        if(index != -1){
+            grpname[index] += `,${cls[c].Name}`
+            grpids[index] += `,${cls[c].id}`
+        } else {
+            grpnum.push(cls[c].Group_id)
+            grpname.push(`${cls[c].Name}`)
+            grpids.push(`${cls[c].id}`)
+        }
+    }
+    for (let g = 0; g < grpnum.length; g++) {
+        await insertdb("Group",{
+            Name: grpname[g],
+            Classes: grpids[g],
+            id:grpnum[g]
+        })        
+    }
+}
